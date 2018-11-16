@@ -13,6 +13,9 @@ pageInit(function () {
         'title': '2dolist',
         'url': 'html/demo/2dolist.html'
     }, {
+        'title': '2dolist2',
+        'url': 'html/demo/2dolist2.html'
+    }, {
         'title': 'Dropdown',
         'dropdown': [{
             'title': 'Action',
