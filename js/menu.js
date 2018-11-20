@@ -31,6 +31,7 @@ pageInit(function () {
         'title': 'Setting',
         'url': ''
     }];
+
     var navbarList = $('#list-tab');
     var navContent = $('#nav-tabContent');
     for (var i = 0; i < menuJson.length; i++) {
@@ -50,8 +51,8 @@ pageInit(function () {
                 creatContent(dropdown_item);
             }
         } else {
-            var list_item = '<li class="nav-item">'+
-            '<a class="nav-link" id="list-' + item.title + '-list" data-toggle="list" href="#list-' + item.title + '" role="tab"'+
+            var list_item = '<li class="nav-item">' +
+                '<a class="nav-link" id="list-' + item.title + '-list" data-toggle="list" href="#list-' + item.title + '" role="tab"' +
                 'aria-controls="list-' + item.title + '">' + item.title + '</a></li>';
 
             navbarList.append(list_item);
@@ -67,6 +68,14 @@ pageInit(function () {
 
         }
     }
+    //close menu with click
+    var navToggler = $('.navbar-toggler');
+    navbarList.find('li a').on('click', function () {
+        var b = navToggler.attr('aria-expanded');
+        if (b == 'true') {
+            navToggler.click(); //bootstrap 4.x
+        }
+    });
     console.log("menu.js end");
 
     function creatContent(item) {

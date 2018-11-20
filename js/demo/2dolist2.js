@@ -27,8 +27,25 @@ pageInit(function () {
 
     var table = $('#2dolist_table');
     API.createDatatable(table, dolistJson);
+    var dialog = $('#exampleModalCenter');
+    // API.createDialog(dialog, "test");
+    dialog.createDialog({
+        'negative':{
+            'btn':'取消'
+        },
+        'positive':{            
+            'btn':'確定',
+            'fun':function(){
+                alert('確定');
+            }
+        }
+    });
     var form = $('form#add-list');
     API.createForm(form, dolistJson);
+    thisObject=$('#delbutton');
+    API.mouseHoldDown(thisObject,function(){
+        clue('長按');
+    });
 
 
 
