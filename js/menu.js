@@ -1,17 +1,20 @@
 pageInit(function () {
     console.log("menu.js start");
     var menuJson = [{
-        'title': 'Datatable',
-        'url': 'html/demo/datatable.html'
-    }, {
         'title': 'Demo',
-        'url': 'html/demo/demo.html'
-    }, {
-        'title': 'Validation',
-        'url': 'html/demo/validation.html'
-    }, {
-        'title': '2dolist',
-        'url': 'html/demo/2dolist.html'
+        'dropdown': [{
+            'title': 'Datatable',
+            'url': 'html/demo/datatable.html'
+        }, {
+            'title': '2dolist',
+            'url': 'html/demo/2dolist.html'
+        }, {
+            'title': 'Validation',
+            'url': 'html/demo/validation.html'
+        }, {
+            'title': 'demo',
+            'url': 'html/demo/demo.html'
+        }]
     }, {
         'title': '2dolist2',
         'url': 'html/demo/2dolist2.html'
@@ -38,8 +41,8 @@ pageInit(function () {
         var item = menuJson[i];
         if (item.dropdown) {
             var dropdown_menu = '<li class="nav-item dropdown">' +
-                '<a class="nav-link dropdown-toggle" href="#" id="' + item.title + 'MenuLink" data-toggle="dropdown"' +
-                'aria-haspopup="true" aria-expanded="false">' + item.title + '</a>' +
+                '<a class="nav-link dropdown-toggle" id="' + item.title + 'MenuLink" data-toggle="dropdown"' +
+                'href="#" aria-haspopup="true" aria-expanded="false">' + item.title + '</a>' +
                 '<div class="dropdown-menu" aria-labelledby="' + item.title + 'MenuLink"></div></li>';
             navbarList.append(dropdown_menu);
             var dropdown_menu = navbarList.find('#' + item.title + 'MenuLink').next('div.dropdown-menu');
@@ -57,13 +60,6 @@ pageInit(function () {
 
             navbarList.append(list_item);
 
-            // var list_item_a = list_item.find('a')
-            // list_item_a.attr('class', 'nav-link');
-            // list_item_a.attr('id', 'list-' + item.title + '-list');
-            // list_item_a.attr('href', '#list-' + item.title);
-            // list_item_a.attr('aria-control', 'list-' + item.title);
-            // list_item_a.html(item.title);
-            // navbarList.append(list_item);
             creatContent(item);
 
         }
@@ -72,7 +68,7 @@ pageInit(function () {
     var navToggler = $('.navbar-toggler');
     navbarList.find('li a').on('click', function () {
         var b = navToggler.attr('aria-expanded');
-        if (b == 'true') {
+        if (b == 'true' && $(this).attr('href').length > 1) {
             navToggler.click(); //bootstrap 4.x
         }
     });
