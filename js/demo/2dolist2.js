@@ -23,61 +23,59 @@ pageInit(function () {
         'columnId': 'name', //欄位ID
         'columnName': '代辦事項', //欄位名稱
         'columnType': 'input', //欄位型態(input，select，file，password，datetime)
-        'colunmChild': [], //子選項
+        'columnSet': [], //子選項
         'readonly': 'fasle', //唯讀
-        'required': 'fasle' //驗證
+        'required': 'true' //驗證
 
     }, {
         'columnId': 'detail',
         'columnName': '詳細說明',
         'columnType': 'input',
-        'colunmChild': [],
+        'columnSet': [],
         'readonly': 'fasle',
-        'required': 'fasle'
+        'required': 'true'
     }, {
         'columnId': 'status',
         'columnName': '狀態',
         'columnType': 'select',
-        'colunmChild': ['已完成', '未完成', '持續'],
+        'columnSet': ['已完成', '未完成', '持續'],
         'readonly': 'fasle',
-        'required': 'fasle'
+        'required': 'true'
     }, {
         'columnId': 'createDate',
         'columnName': '建立時間',
-        'columnType': 'datetime',
-        'colunmChild': [],
-        'readonly': 'fasle',
-        'required': 'fasle'
+        'columnType': 'datetime-local',
+        'columnSet': API.dateTimeLocalFormat(new Date()),
+        'readonly': 'true',
+        'required': 'true'
     }, {
         'columnId': 'createUser',
         'columnName': '建立者',
         'columnType': 'input',
-        'colunmChild': [],
+        'columnSet': [],
         'readonly': 'fasle',
-        'required': 'fasle'
+        'required': 'true'
     }]
-    var datatable = $('#2dolist_table').createDatatable(dolistJson);
+    // var datatable = $('#2dolist_table').createDatatableWithData(dolistJson);
+    var datatable = $('#2dolist_table').createDatatable(columnJson);
     var dialog = $('#exampleModalCenter');
-    // API.createDialog(dialog, "test");
+    var form = $('form#add-list').createForm(columnJson);
     dialog.createDialog({
         'negative': {
             'btn': '取消'
         },
         'positive': {
             'btn': '確定',
-            'fun': function () {
-                var data = form.getFormData();
-                console.log(data);
-                var show = [];
-                for(i in data){
-                    show.push(data[i].val);
-                }
-                datatable.row.add(show).draw(false);
+            'fun': function () {        
+                if(form.validationEngine()){
+                    var data = form.getFormData();
+                    console.log(data);
+                    datatable.row.add(data).draw(false);
+                    dialog.modal('hide');
+                }                
             }
         }
     });
-    var form = $('form#add-list').createForm(columnJson);
-
 
 
     thisObject = $('#delbutton');
