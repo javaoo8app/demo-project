@@ -77,6 +77,13 @@ pageInit(function () {
             }
         }
     });
+
+    $('#expbutton').click(function () {
+        datatable.export();
+    });
+    $('#impbutton').click(function () {
+        datatable.import('ajax/Export.json').ajax.reload();
+    });    
     $('#delbutton').click(function () {
         if (datatable.rows('.selected').data().length>0) {
             API.simpleDialog({
