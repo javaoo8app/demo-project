@@ -1,4 +1,5 @@
 Init();
+Run();
 window.pageInit = function (settings) {
     if (settings) {
         settings();
@@ -24,6 +25,10 @@ function loadpage() {
             i--;
         }
     }
+}
+
+function Run() {
+    API.dateTimeLocalTiming();
 }
 
 function Init() {
@@ -65,6 +70,7 @@ function Init() {
             capitalizeFirstLetter: function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             },
+            //將時間物件轉換成dateTimeLocal格式
             dateTimeLocalFormat: function (date) {
                 var hours = date.getHours();
                 var minutes = date.getMinutes();
@@ -72,7 +78,14 @@ function Init() {
                 var strTime = 'T' + hours + ':' + minutes;
                 return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + strTime;
             },
-
+            //啟動動態時間
+            dateTimeLocalTiming: function () {
+                //setInterval會每1000毫秒執行一次，也就是每1秒獲取一次時間
+                dateTimeLocalTiming = setInterval(function () {
+                    var dateTimeLocal = $("[type='datetime-local'][nowtime='true']");
+                    dateTimeLocal.attr('value', API.dateTimeLocalFormat(new Date()));
+                }, 100);
+            },
 
 
 
@@ -147,33 +160,77 @@ function Init() {
                     }
                 }
             },
-            //建立自訂Dialog
-            createDialog: function (modal, title) {
-                var modalbody = modal.find('.modal-body');
-                if (modalbody) {
-                    modal.attr({
-                        "class": "modal fade",
-                        "tabindex": "-1",
-                        "role": "dialog",
-                        "aria-labelledby": "exampleModalCenterTitle",
-                        "aria-hidden": "true"
-                    });
-                    modal.append('<div class="modal-dialog modal-dialog-centered-top" role="document">' +
+            //快速建立Dialog
+            simpleDialog: function (setting) {
+                //範例:
+                // setting = ({
+                //     'title': 'dialogName',
+                //     'content': 'content',
+                //     'negative': {
+                //         'btn': 'cencle',
+                //         'fun': function () {}
+                //     },
+                //     'positive': {
+                //         'btn': 'success',
+                //         'fun': function () {}
+                //     }
+                // });
+                var title = setting.title || 'DEMO';
+                var content = setting.content || '';
+                var positiveButton = setting.positive.btn || 'Save changes';
+                var negativeButton = setting.negative.btn || 'Close';
+
+                var has = $('body').find('#simpleDialog').length == 0;
+                if (has) {
+                    $('body').append('<div id="simpleDialog">' +
+                        '<div class="modal-body"></div></div>');
+                }
+                var simpleDialog = $('body').find('#simpleDialog');
+                var modalbody = simpleDialog.find('.modal-body');
+                modalbody.html(content);
+                simpleDialog.attr({
+                    "class": "modal fade",
+                    "tabindex": "-1",
+                    "role": "dialog",
+                    "aria-labelledby": "exampleModalCenterTitle",
+                    "aria-hidden": "true"
+                });
+
+                if (has) {
+                    simpleDialog.append('<div class="modal-dialog modal-dialog-centered-top" role="document">' +
                         '<div class="modal-content">' +
                         '<div class="modal-header">' +
-                        '<h5 class="modal-title" id="exampleModalCenterTitle">' + title + '</h5>' +
+                        '<h5 class="modal-title">' + title + '</h5>' +
                         '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                         '<span aria-hidden="true">&times;</span>' +
                         '</button></div>' +
                         ' <div class="modal-footer">' +
-                        '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>' +
-                        '<button type="button" class="btn btn-primary">Save changes</button>' +
+                        '<button type="button" class="btn btn-secondary negative" data-dismiss="modal">' + negativeButton + '</button>' +
+                        '<button type="button" class="btn btn-primary positive" data-dismiss="modal">' + positiveButton + '</button>' +
                         '</div></div></div></div>');
-                    modal.find('.modal-footer').before(modalbody);
+                    simpleDialog.find('.modal-footer').before(modalbody);
 
+                    simpleDialog.find('.modal-footer .negative').click(function () {
+                        setting.negative.fun && setting.negative.fun();
+                    });
+                    simpleDialog.find('.modal-footer .positive').click(function () {
+                        setting.positive.fun && setting.positive.fun();
+                    });
                 } else {
-                    clue(modal.attr('id') + ' do not have modal-body class!');
+                    simpleDialog.find('.modal-title').html(title);
+                    var negative = simpleDialog.find('.modal-footer .negative');
+                    negative.html(negativeButton);
+                    var positive = simpleDialog.find('.modal-footer .positive');
+                    positive.html(positiveButton);
+                    negative.click(function () {
+                        setting.negative.fun && setting.negative.fun();
+                    });
+                    positive.click(function () {
+                        setting.positive.fun && setting.positive.fun();
+                    });
                 }
+                simpleDialog.modal('show');
+
             },
             //滑鼠長按
             mouseHoldDown: function (thisObject, functionCode, holdTime) {
@@ -301,7 +358,7 @@ function Init() {
             //顯示選取數量
             $(this).on('click', 'tr', function () {
                 $(this).toggleClass('selected');
-                clue(datatable.rows('.selected').data().length + ' row(s) selected');
+                // clue(datatable.rows('.selected').data().length + ' row(s) selected');
             });
             //長案自動刪除
             // $(this).toggleClass('selected').on("taphold", function () {
@@ -342,6 +399,23 @@ function Init() {
             validationEngine: function () {
                 form.find('input.submit').click();
                 return validationEngineStatus;
+            },
+            clear: function () {
+                setTimeout(function () {
+                    var formGroup = form.find('.form-group').first();
+                    while (formGroup.attr('class') == 'form-group' && formGroup.length > 0) {
+                        var tag = formGroup.children().last();
+                        if (tag[0].tagName == "INPUT" && tag.attr("type") == "datetime-local") {
+                            tag.attr('value', API.dateTimeLocalFormat(new Date()));
+                        } else if (tag[0].tagName == "INPUT") {
+                            tag.val('');
+                        } else if (tag[0].tagName == "SELECT") {
+                            tag[0].selectedIndex = 0;
+                        }
+                        formGroup = formGroup.next();
+                    }
+                }, 500);
+
             }
         };
         if ($(this)[0].tagName == "FORM" && API.isJSON(json)) {
@@ -378,9 +452,16 @@ function Init() {
                         '<label for=' + json[x].columnId + '">' + json[x].columnName + ':</label>' +
                         '<input type="password" class="form-control" id="' + json[x].columnId + '" placeholder="Password">');
                 } else if (json[x].columnType == 'datetime-local') {
+                    var dataTime = json[x].columnSet;
+                    var nowtimeTag = '';
+                    if (json[x].columnSet == 'currentTime') {
+                        dataTime = new Date();
+                        nowtimeTag = 'nowtime="true"';
+                    }
                     $(this).append('<div class="form-group">' +
                         '<label for=' + json[x].columnId + '">' + json[x].columnName + ':</label>' +
-                        '<input type="datetime-local" class="form-control" id="' + json[x].columnId + '" value="' + json[x].columnSet + '">');
+                        '<input type="datetime-local" class="form-control" ' + nowtimeTag + ' id="' + json[x].columnId + '" value="' + API.dateTimeLocalFormat(dataTime) + '">');
+
                 }
                 var formGroup = $(this).find('.form-group').last();
                 //isReadonly?
@@ -445,7 +526,7 @@ function Init() {
             $(this).append('<div class="modal-dialog modal-dialog-centered-top" role="document">' +
                 '<div class="modal-content">' +
                 '<div class="modal-header">' +
-                '<h5 class="modal-title" id="exampleModalCenterTitle">' + title + '</h5>' +
+                '<h5 class="modal-title">' + title + '</h5>' +
                 '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                 '<span aria-hidden="true">&times;</span>' +
                 '</button></div>' +

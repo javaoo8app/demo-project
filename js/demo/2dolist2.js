@@ -45,7 +45,7 @@ pageInit(function () {
         'columnId': 'createDate',
         'columnName': '建立時間',
         'columnType': 'datetime-local',
-        'columnSet': API.dateTimeLocalFormat(new Date()),
+        'columnSet': 'currentTime',
         'readonly': 'true',
         'required': 'true'
     }, {
@@ -66,28 +66,34 @@ pageInit(function () {
         },
         'positive': {
             'btn': '確定',
-            'fun': function () {        
-                if(form.validationEngine()){
+            'fun': function () {
+                if (form.validationEngine()) {
                     var data = form.getFormData();
                     console.log(data);
                     datatable.row.add(data).draw(false);
                     dialog.modal('hide');
-                }                
+                    form.clear();
+                }
             }
         }
     });
+    $('#delbutton').click(function () {
+        if (datatable.rows('.selected').data().length>0) {
+            API.simpleDialog({
+                'title': '刪除',
+                'content': '確認要刪除嗎?',
+                'negative': {
+                    'btn': '取消'
+                },
+                'positive': {
+                    'btn': '確定',
+                    'fun': function () {
+                        datatable.row('.selected').remove().draw( false );
+                    }
+                }
+            });
+        }
 
-
-    thisObject = $('#delbutton');
-    API.mouseHoldDown(thisObject, function () {
-        clue('長按');
     });
-
-
-
-
-
-
-
     console.log("2dolist2.js end");
 });
