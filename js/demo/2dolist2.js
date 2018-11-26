@@ -69,7 +69,6 @@ pageInit(function () {
             'fun': function () {
                 if (form.validationEngine()) {
                     var data = form.getFormData();
-                    console.log(data);
                     datatable.row.add(data).draw(false);
                     dialog.modal('hide');
                     form.clear();
@@ -81,11 +80,41 @@ pageInit(function () {
     $('#expbutton').click(function () {
         datatable.export();
     });
+    $('#impcbutton').click(function () {
+        var getFileContent = function (fileInput, callback) {
+            if (fileInput.files && fileInput.files.length > 0 && fileInput.files[0].size > 0) {
+                //下面这一句相当于JQuery的：var file =$("#upload").prop('files')[0];
+                var file = fileInput.files[0];
+                if (window.FileReader) {
+                    var reader = new FileReader();
+                    reader.onloadend = function (evt) {
+                        if (evt.target.readyState == FileReader.DONE) {
+                            callback(evt.target.result);
+                        }
+                    };
+                    // 包含中文内容用gbk编码
+                    reader.readAsText(file, 'UTF-8');
+                }
+            }
+        };
+        /**
+         * upload内容变化时载入内容
+         */
+        document.getElementById('impcbutton').onchange = function () {
+
+            getFileContent(this, function (str) {
+                var data = JSON.parse(str).data;
+                for(var i = 0; i<data.length; i++){
+                    datatable.row.add(data[i]).draw(false);
+                }
+            });
+        };
+    });
     $('#impbutton').click(function () {
-        datatable.import('ajax/Export.json').ajax.reload();
-    });    
+        datatable.importPath('ajax/Export.json');
+    });
     $('#delbutton').click(function () {
-        if (datatable.rows('.selected').data().length>0) {
+        if (datatable.rows('.selected').data().length > 0) {
             API.simpleDialog({
                 'title': '刪除',
                 'content': '確認要刪除嗎?',
@@ -95,7 +124,7 @@ pageInit(function () {
                 'positive': {
                     'btn': '確定',
                     'fun': function () {
-                        datatable.row('.selected').remove().draw( false );
+                        datatable.row('.selected').remove().draw(false);
                     }
                 }
             });

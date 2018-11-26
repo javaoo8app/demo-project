@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
 <script src="js/demo/2dolist2.js"></script>
+<script>
+    $(document).ready(function(){
+          $('input[type=file]').bootstrapFileInput();
+        });
+        </script>
 
 <body>
     <div class="bts row justify-content-end">
+        <!-- Display filename inside the button instead of its label -->
+        <input type="file" class="btn btn-outline-secondary" id="impcbutton" data-filename-placement="inside" title="選擇檔案匯入">
         <button type="button" class="btn btn-outline-primary" id="expbutton">匯出</button>
-        <button type="button" class="btn btn-outline-secondary" id="impbutton">匯入</button>
+        <button type="button" class="btn btn-outline-secondary" id="impbutton">預設匯入</button>
         <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#exampleModalCenter">新增</button>
         <button type="button" class="btn btn-outline-danger" id="delbutton">刪除</button>
     </div>

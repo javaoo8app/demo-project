@@ -276,6 +276,7 @@ function Run() {
             var datatable = $(this).DataTable({
                 responsive: true
             });
+            var object = $(this);
             //focus mouse over
             $(this).on('mouseenter', 'td', function () {
                 if (datatable.cell(this)[0].length > 0) {
@@ -293,15 +294,18 @@ function Run() {
             // $(this).toggleClass('selected').on("taphold", function () {
             //     (datatable.row('.selected')).remove().draw(false);
             // });
-            datatable.import = function(path){            
-                return $(this).DataTable({
-                    responsive: true,
-                    "ajax": path
-                });
+            datatable.importJson = function (json) {
+                datatable.ajax.url(json).load();
+                return datatable;
+            }
+            datatable.importPath = function (path) {
+                datatable.ajax.url(path).load();
+                return datatable;
             }
             datatable.export = function () {
-                var data = datatable.buttons.exportData();
-
+                var data = {
+                    "data": datatable.buttons.exportData().body
+                };
                 $.fn.dataTable.fileSave(
                     new Blob([JSON.stringify(data)]),
                     'Export.json'
