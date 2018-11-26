@@ -1,4 +1,5 @@
 Init();
+Run();
 window.pageInit = function (settings) {
     if (settings) {
         settings();
@@ -8,7 +9,7 @@ window.pageInit = function (settings) {
 pageInit(function () {
     console.log('main.js start');
 
-    console.log('main.js end')
+    console.log('main.js end');
 });
 
 function loadpage() {
@@ -25,6 +26,8 @@ function loadpage() {
         }
     }
 }
+
+
 
 function Init() {
     $.extend(window, {
@@ -65,103 +68,95 @@ function Init() {
             capitalizeFirstLetter: function (string) {
                 return string.charAt(0).toUpperCase() + string.slice(1);
             },
-            //建立DataTable
-            createDatatable: function (tableTag, json) {
-                if (tableTag[0].tagName == "TABLE" && API.isJSON(json)) {
-                    tableTag.append('<thead><tr></tr></thead>');
-                    var thead_tr = tableTag.find('thead tr');
-                    tableTag.append('<tbody></tbody>');
-                    var tbody = tableTag.find('tbody');
-                    //column
-                    for (keyName in json[0]) {
-                        thead_tr.append('<th>' + keyName + '</th>');
-                    }
-                    //data
-                    for (var i = 0; i < json.length; i++) {
-                        var object = json[i];
-                        var tr = '<tr>';
-                        var _tr = '</tr>';
-                        for (keyName in object) {
-                            tr += '<td>' + object[keyName] + '</td>';
-                        }
-                        tbody.append(tr + _tr);
-                    }
-                    var datatable = tableTag.DataTable({
-                        responsive: true
-                    });
-                    //focus mouse over
-                    tableTag.on('mouseenter', 'td', function () {
-                        console.log();
-                        if (datatable.cell(this)[0].length > 0) {
-                            var colIdx = datatable.cell(this).index().column;
-                            $(datatable.cells().nodes()).removeClass('highlight');
-                            $(datatable.column(colIdx).nodes()).addClass('highlight');
-                        }
-                    });
-                    //顯示選取數量
-                    tableTag.on('click', 'tr', function () {
-                        $(this).toggleClass('selected');
-                        clue(datatable.rows('.selected').data().length + ' row(s) selected');
-                    });
-                    //長案自動刪除
-                    tableTag.toggleClass('selected').on("taphold", function () {
-                        (datatable.row('.selected')).remove().draw(false);
-                    });
+            //將時間物件轉換成dateTimeLocal格式
+            dateTimeLocalFormat: function (date) {
+                var hours = date.getHours();
+                var minutes = date.getMinutes();
+                minutes = minutes < 10 ? '0' + minutes : minutes;
+                var strTime = 'T' + hours + ':' + minutes;
+                return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + strTime;
+            },
+            //啟動動態時間
+            dateTimeLocalTiming: function () {
+                //setInterval會每1000毫秒執行一次，也就是每1秒獲取一次時間
+                dateTimeLocalTiming = setInterval(function () {
+                    var dateTimeLocal = $("[type='datetime-local'][nowtime='true']");
+                    dateTimeLocal.attr('value', API.dateTimeLocalFormat(new Date()));
+                }, 100);
+            },
 
-                } else {
-                    if (!API.isJSON(json)) {
-                        clue(tableTag.attr('id') + ' does not have JSON!');
-                    }
-                    if (tableTag[0].tagName != "TABLE") {
-                        clue(tableTag.attr('id') + ' is not a TABLE tag! It is ' + tableTag[0].tagNam);
-                    }
+
+            //快速建立Dialog
+            simpleDialog: function (setting) {
+                //範例:
+                // setting = ({
+                //     'title': 'dialogName',
+                //     'content': 'content',
+                //     'negative': {
+                //         'btn': 'cencle',
+                //         'fun': function () {}
+                //     },
+                //     'positive': {
+                //         'btn': 'success',
+                //         'fun': function () {}
+                //     }
+                // });
+                var title = setting.title || 'DEMO';
+                var content = setting.content || '';
+                var positiveButton = setting.positive.btn || 'Save changes';
+                var negativeButton = setting.negative.btn || 'Close';
+
+                var has = $('body').find('#simpleDialog').length == 0;
+                if (has) {
+                    $('body').append('<div id="simpleDialog">' +
+                        '<div class="modal-body"></div></div>');
                 }
-            },
-            //建立Form表單
-            createForm: function (formTag, json) {
-                if (formTag[0].tagName == "FORM" && API.isJSON(json)) {
-                    for (keyName in json[0]) {
-                        formTag.append('<div class="form-group">' +
-                            '<label for="' + keyName + '" class="col-form-label">' + API.capitalizeFirstLetter(keyName) + ':</label>' +
-                            '<input type="text" class="form-control" id="' + keyName + '">' +
-                            '</div>');
-                    }
-                } else {
-                    if (!API.isJSON(json)) {
-                        clue(formTag.attr('id') + ' does not have JSON!');
-                    }
-                    if (formTag[0].tagName != "FORM") {
-                        clue(formTag.attr('id') + ' is not a FORM tag! It is ' + formTag[0].tagNam);
-                    }
-                }
-            },
-            //建立自訂Dialog
-            createDialog: function (modal, title) {
-                var modalbody = modal.find('.modal-body');
-                if (modalbody) {
-                    modal.attr({
-                        "class": "modal fade",
-                        "tabindex": "-1",
-                        "role": "dialog",
-                        "aria-labelledby": "exampleModalCenterTitle",
-                        "aria-hidden": "true"
-                    });
-                    modal.append('<div class="modal-dialog modal-dialog-centered-top" role="document">' +
+                var simpleDialog = $('body').find('#simpleDialog');
+                var modalbody = simpleDialog.find('.modal-body');
+                modalbody.html(content);
+                simpleDialog.attr({
+                    "class": "modal fade",
+                    "tabindex": "-1",
+                    "role": "dialog",
+                    "aria-labelledby": "exampleModalCenterTitle",
+                    "aria-hidden": "true"
+                });
+
+                if (has) {
+                    simpleDialog.append('<div class="modal-dialog modal-dialog-centered-top" role="document">' +
                         '<div class="modal-content">' +
                         '<div class="modal-header">' +
-                        '<h5 class="modal-title" id="exampleModalCenterTitle">' + title + '</h5>' +
+                        '<h5 class="modal-title">' + title + '</h5>' +
                         '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                         '<span aria-hidden="true">&times;</span>' +
                         '</button></div>' +
                         ' <div class="modal-footer">' +
-                        '<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>' +
-                        '<button type="button" class="btn btn-primary">Save changes</button>' +
+                        '<button type="button" class="btn btn-secondary negative" data-dismiss="modal">' + negativeButton + '</button>' +
+                        '<button type="button" class="btn btn-primary positive" data-dismiss="modal">' + positiveButton + '</button>' +
                         '</div></div></div></div>');
-                    modal.find('.modal-footer').before(modalbody);
+                    simpleDialog.find('.modal-footer').before(modalbody);
 
+                    simpleDialog.find('.modal-footer .negative').click(function () {
+                        setting.negative.fun && setting.negative.fun();
+                    });
+                    simpleDialog.find('.modal-footer .positive').click(function () {
+                        setting.positive.fun && setting.positive.fun();
+                    });
                 } else {
-                    clue(modal.attr('id') + ' do not have modal-body class!');
+                    simpleDialog.find('.modal-title').html(title);
+                    var negative = simpleDialog.find('.modal-footer .negative');
+                    negative.html(negativeButton);
+                    var positive = simpleDialog.find('.modal-footer .positive');
+                    positive.html(positiveButton);
+                    negative.click(function () {
+                        setting.negative.fun && setting.negative.fun();
+                    });
+                    positive.click(function () {
+                        setting.positive.fun && setting.positive.fun();
+                    });
                 }
+                simpleDialog.modal('show');
+
             },
             //滑鼠長按
             mouseHoldDown: function (thisObject, functionCode, holdTime) {
@@ -210,8 +205,13 @@ function Init() {
     $.fn.mouseHoldDown = function (functionCode, holdTime) {
         API.mouseHoldDown($(this), functionCode, holdTime);
     }
+
+}
+
+function Run() {
+    API.dateTimeLocalTiming();
     //建立DataTable
-    $.fn.createDatatable = function (json) {
+    $.fn.createDatatableWithData = function (json) {
         if ($(this)[0].tagName == "TABLE" && API.isJSON(json)) {
             $(this).append('<thead><tr></tr></thead>');
             var thead_tr = $(this).find('thead tr');
@@ -263,24 +263,107 @@ function Init() {
             }
         }
     }
+    $.fn.createDatatable = function (json) {
+        if ($(this)[0].tagName == "TABLE" && API.isJSON(json)) {
+            $(this).append('<thead><tr></tr></thead>');
+            var thead_tr = $(this).find('thead tr');
+            $(this).append('<tbody></tbody>');
+            var tbody = $(this).find('tbody');
+            //column
+            for (i in json) {
+                thead_tr.append('<th>' + json[i].columnName + '</th>');
+            }
+            var datatable = $(this).DataTable({
+                responsive: true
+            });
+            var object = $(this);
+            //focus mouse over
+            $(this).on('mouseenter', 'td', function () {
+                if (datatable.cell(this)[0].length > 0) {
+                    var colIdx = datatable.cell(this).index().column;
+                    $(datatable.cells().nodes()).removeClass('highlight');
+                    $(datatable.column(colIdx).nodes()).addClass('highlight');
+                }
+            });
+            //顯示選取數量
+            $(this).on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+                // clue(datatable.rows('.selected').data().length + ' row(s) selected');
+            });
+            //長案自動刪除
+            // $(this).toggleClass('selected').on("taphold", function () {
+            //     (datatable.row('.selected')).remove().draw(false);
+            // });
+            datatable.importJson = function (json) {
+                datatable.ajax.url(json).load();
+                return datatable;
+            }
+            datatable.importPath = function (path) {
+                datatable.ajax.url(path).load();
+                return datatable;
+            }
+            datatable.export = function () {
+                var data = {
+                    "data": datatable.buttons.exportData().body
+                };
+                $.fn.dataTable.fileSave(
+                    new Blob([JSON.stringify(data)]),
+                    'Export.json'
+                );
+                return datatable;
+            }
+            return datatable;
+
+        } else {
+            if (!API.isJSON(json)) {
+                clue($(this).attr('id') + ' does not have JSON!');
+            }
+            if ($(this)[0].tagName != "TABLE") {
+                clue($(this).attr('id') + ' is not a TABLE tag! It is ' + $(this)[0].tagNam);
+            }
+        }
+    }
     //建立Form表單
     $.fn.createForm = function (json) {
+        var selectDef = '請選擇';
         var form;
+        var validationEngineStatus;
         var formObj = {
             getFormData: function () {
                 var formGroup = form.find('.form-group').first();
                 var formdata = [];
-                while(formGroup.length>0){
-                    var tag = formGroup.find('label').next();
+                while (formGroup.attr('class') == 'form-group' && formGroup.length > 0) {
+                    var tag = formGroup.children().last();
                     var id = tag.attr('id');
                     var val = tag.val();
-                    formdata.push({
-                        'id':id,
-                        'val':val
-                    })
+                    if (tag[0].tagName == "SELECT" && val == selectDef) {
+                        val = '';
+                    }
+                    formdata.push(val);
                     formGroup = formGroup.next();
                 }
                 return formdata;
+            },
+            validationEngine: function () {
+                form.find('input.submit').click();
+                return validationEngineStatus;
+            },
+            clear: function () {
+                setTimeout(function () {
+                    var formGroup = form.find('.form-group').first();
+                    while (formGroup.attr('class') == 'form-group' && formGroup.length > 0) {
+                        var tag = formGroup.children().last();
+                        if (tag[0].tagName == "INPUT" && tag.attr("type") == "datetime-local") {
+                            tag.attr('value', API.dateTimeLocalFormat(new Date()));
+                        } else if (tag[0].tagName == "INPUT") {
+                            tag.val('');
+                        } else if (tag[0].tagName == "SELECT") {
+                            tag[0].selectedIndex = 0;
+                        }
+                        formGroup = formGroup.next();
+                    }
+                }, 500);
+
             }
         };
         if ($(this)[0].tagName == "FORM" && API.isJSON(json)) {
@@ -288,7 +371,7 @@ function Init() {
             //     'columnId': '', //欄位ID
             //     'columnName': '', //欄位名稱
             //     'columnType': '', //欄位型態(input，select，file，password，datetime)
-            //     'colunmChild': [],
+            //     'columnSet': [],
             //     'readonly': '',
             //     'required': ''
             // }]
@@ -304,8 +387,9 @@ function Init() {
                         '<select class="form-control" id="' + json[x].columnId + '">' +
                         '</select></div>');
                     var childParent = $(this).find('#' + json[x].columnId);
-                    for (j in json[x].colunmChild) {
-                        childParent.append('<option>' + json[x].colunmChild[j] + '</option>');
+                    childParent.append('<option value="">' + selectDef + '</option>');
+                    for (j in json[x].columnSet) {
+                        childParent.append('<option value="' + json[x].columnSet[j] + '">' + json[x].columnSet[j] + '</option>');
                     }
                 } else if (json[x].columnType == 'file') {
                     $(this).append('<div class="form-group">' +
@@ -315,24 +399,41 @@ function Init() {
                     $(this).append('<div class="form-group">' +
                         '<label for=' + json[x].columnId + '">' + json[x].columnName + ':</label>' +
                         '<input type="password" class="form-control" id="' + json[x].columnId + '" placeholder="Password">');
-                } else if (json[x].columnType == 'datetime') {
+                } else if (json[x].columnType == 'datetime-local') {
+                    var dataTime = json[x].columnSet;
+                    var nowtimeTag = '';
+                    if (json[x].columnSet == 'currentTime') {
+                        dataTime = new Date();
+                        nowtimeTag = 'nowtime="true"';
+                    }
                     $(this).append('<div class="form-group">' +
                         '<label for=' + json[x].columnId + '">' + json[x].columnName + ':</label>' +
-                        '<input type="date" class="form-control" id="' + json[x].columnId + '">');
+                        '<input type="datetime-local" class="form-control" ' + nowtimeTag + ' id="' + json[x].columnId + '" value="' + API.dateTimeLocalFormat(dataTime) + '">');
+
                 }
+                var formGroup = $(this).find('.form-group').last();
                 //isReadonly?
-                var input = $(this).find('input').first();
-                if (json[x].readonly) {
-                    input.attr('readonly', false);
+                var input = formGroup.find('label').next();
+                if (json[x].readonly == 'true') {
+                    input.attr('readonly', true);
                 } else {
                     input.removeAttr('readonly');
                 }
-                if (json[x].required) {
-                    input.attr('required', false);
+                //isRequired?
+                if (json[x].required == 'true') {
+                    input.attr('data-validation-engine', 'validate[required]');
                 } else {
-                    input.removeAttr('required');
+                    input.removeAttr('data-validation-engine');
                 }
             }
+            $(this).append('<input class="submit invisible" type="submit" />');
+
+            $(this).validationEngine('attach', {
+                onValidationComplete: function (form, status) {
+                    validationEngineStatus = status;
+                }
+            });
+
             form = $(this);
             return formObj;
         } else {
@@ -373,13 +474,13 @@ function Init() {
             $(this).append('<div class="modal-dialog modal-dialog-centered-top" role="document">' +
                 '<div class="modal-content">' +
                 '<div class="modal-header">' +
-                '<h5 class="modal-title" id="exampleModalCenterTitle">' + title + '</h5>' +
+                '<h5 class="modal-title">' + title + '</h5>' +
                 '<button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
                 '<span aria-hidden="true">&times;</span>' +
                 '</button></div>' +
                 ' <div class="modal-footer">' +
                 '<button type="button" class="btn btn-secondary negative" data-dismiss="modal">' + negativeButton + '</button>' +
-                '<button type="button" class="btn btn-primary positive" data-dismiss="modal">' + positiveButton + '</button>' +
+                '<button type="button" class="btn btn-primary positive">' + positiveButton + '</button>' +
                 '</div></div></div></div>');
             $(this).find('.modal-footer').before(modalbody);
             $(this).find('.modal-footer .negative').click(function () {
