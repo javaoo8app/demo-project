@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<body>
+    <div id="app">
+        <component :is="currentView"></component>
+        <button @click="handleChangeView('A')">A</button>
+        <button @click="handleChangeView('B')">B</button>
+        <button @click="handleChangeView('C')">C</button>
+    </div>
+    <script  src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el:'#app',
+            components:{
+                comA: {
+                    template: '<div>Apple</div>'
+                },
+                comB: {
+                    template: '<div>Bee</div>'
+                },
+                comC: {
+                    template: '<div>CC Lemon</div>'
+                }
+            },
+            data:{
+                currentView: 'comA'
+            },
+            methods:{
+                handleChangeView: function (component) {  
+                    this.currentView = 'com' + component;
+                }
+            }
+        });
+
+
+
+    </script>
+
+</body>
+</html>

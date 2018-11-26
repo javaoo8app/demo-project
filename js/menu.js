@@ -33,6 +33,9 @@ pageInit(function () {
     }, {
         'title': 'Setting',
         'url': ''
+    },{
+        'title': 'Vue',
+        'url': ''
     }];
 
     var navbarList = $('#list-tab');

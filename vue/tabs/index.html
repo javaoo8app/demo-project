@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>標籤頁</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <div id="app" v-cloak>
+        <tabs v-model="activeKey">
+            <pane label="標籤一" name="1">
+                標籤一的內容
+            </pane>
+            <pane label="標籤二" name="2">
+                標籤二的內容
+            </pane>
+            <pane label="標籤三" name="3">
+                標籤三的內容
+            </pane>
+        </tabs>
+    </div>
+    <script  src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script  src="pane.js"></script>
+    <script src="tabs.js"></script>
+    <script type="text/javascript">
+        var app = new Vue({
+            el:'#app',
+            data: {
+                activeKey: '1'
+            }
+        })
+    </script>
+
+</body>
+</html>

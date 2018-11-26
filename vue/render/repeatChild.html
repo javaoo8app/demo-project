@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>repeatChild</title>
+</head>
+<body>
+    <div id="app">
+        <ele></ele>
+    </div>
+    <script  src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        //局部宣告元件
+        var Child = {
+            render: function(createElement){
+                return createElement('p', 'Repeat Me!');
+            }
+        };
+
+        Vue.component('ele', {
+            render: function(createElement){
+                return createElement('div',
+                Array.apply(null,{
+                    length: 5
+                }).map(function(){
+                    return createElement(Child);
+                })
+              );
+            }
+        });
+        var app = new Vue({
+            el:'#app',
+
+        });
+
+
+
+    </script>
+
+</body>
+</html>

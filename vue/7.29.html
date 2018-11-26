@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title></title>
+</head>
+<body>
+    <div id="app">
+        <child-component>
+            <!-- <p>分發的內容</p>
+            <p>更多分發的內容</p> -->
+        </child-component>
+    </div>
+    <script  src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('child-component',{
+            template:'\
+            <div>\
+                <slot>\
+                    <p>如果父沒有元件插入內容，我將預設出現<\p>\
+                </slot>\
+            <div>'
+        });
+        var app = new Vue({
+            el:'#app',
+            data:{
+                
+            }
+        });
+
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>repeatSlot</title>
+</head>
+
+<body>
+    <div id="app">
+        <ele>
+            <div>
+                <Child></Child>
+            </div>
+        </ele>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        //全域註冊元件
+        Vue.component('Child', {
+            render: function (createElement) {
+                return createElement('p', 'text');
+            }
+        });
+
+        Vue.component('ele', {
+            render: function (createElement) {
+                //複製slot節點的方法
+                function cloneVNode(vnode) {
+                    //遞迴檢查所有子節點，並複製
+                    const clonedChildren = vnode.children &&
+                        vnode.children.map(function (vnode) {
+                            return cloneVNode(vnode);
+                        });
+                    const cloned = createElement(
+                        vnode.tag,
+                        vnode.data,
+                        clonedChildren
+                    );
+                    cloned.text = vnode.text;
+                    cloned.isComment = vnode.isComment;
+                    cloned.componentOptions = vnode.componentOptions;
+                    cloned.elm = vnode.elm;
+                    cloned.context = vnode.context;
+                    cloned.ns = vnode.ns;
+                    cloned.isStatic = vnode.isStatic;
+                    cloned.key = vnode.key;
+
+                    return cloned;
+                }
+
+                const vNodes = this.$slots.default;
+                const clonedVNodes = vNodes.map(function (vnode) {
+                    return cloneVNode(vnode);
+                });
+                return createElement('div', [
+                    vNodes,
+                    clonedVNodes
+                ]);
+
+            }
+        });
+        var app = new Vue({
+            el: '#app',
+
+        });
+
+
+
+    </script>
+
+</body>
+
+</html>
