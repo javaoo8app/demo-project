@@ -1,13 +1,14 @@
 <template>
-  <div></div>
+  <v-table></v-table>
 </template>
+
 <script>
+
+import vTable from '@/components/vueExample/vTable'
+
 export default {
   components: {
-  },
-  data () {
-    return {}
-  },
-  created () {}
+    vTable
+  }
 }
 </script>
