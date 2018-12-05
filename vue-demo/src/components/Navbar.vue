@@ -3,7 +3,7 @@
     toggleable="md"
     type="dark"
     variant="info"
-    class="fixed-top"
+    class="fixed-top bg-dark"
   >
     <b-navbar-brand href="#">{{ msg }}</b-navbar-brand>
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
