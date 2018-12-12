@@ -62,9 +62,13 @@ export default {
               url: '/EventHandling'},
             {title: '06 - Form Input Bindings',
               url: '/FormInputBindings'},
-            {title: '07 - Component',
+            {title: '07 - ComponentG',
+              url: '/ComponentG'},
+            {title: '07.1 - Component',
               url: '/Component'}
-          ] }
+          ] },
+        { title: 'Render',
+          url: '/Render' }
       ]
     }
   }

@@ -6,7 +6,6 @@
 </template>
 <script>
 export default {
-  name: 'FormInputBindings',
   data () {
     return {
       message: 'Hello Vue!'
