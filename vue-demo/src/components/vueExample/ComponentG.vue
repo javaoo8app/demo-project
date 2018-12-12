@@ -1,6 +1,6 @@
 <template>
   <div>
-    將'todo-item'組件設在全域，詳見:router/index.js。
+    <!-- 將'todo-item'組件設在全域，詳見:router/index.js。 -->
     <ol>
       <todo-item
         v-for="item in groceryList"

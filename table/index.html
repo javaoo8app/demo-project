@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>table</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+    <div id="table" v-cloak>
+        <v-table :data="data" :columns="columns"></v-table>
+        <button @click="handleAddData">增加資料</button>
+    </div>
+    <script  src = "https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src = "table.js"></script>
+    <script src = "data.js"></script>
+</body>
+</html>
