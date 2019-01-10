@@ -1,0 +1,225 @@
+@import"mixin";
+@import"grid";
+
+$logo-font:"Helvetica Neue",Helvetica,"segoe ui","microsoft jhenghei","microsoft mhei","stheititc","sans-serif";
+
+.wrap{
+    max-width: 1263px;
+    @include pad(){
+        max-width: 768px;
+    }
+    @include phone(){
+        max-width: 767px;
+    }
+    .bar{
+        background-color: #000;
+        color: #fff;
+        @include phone(){
+            height: 38px;
+        }
+        @include clearfix;
+        .logo h1{
+            float: left;
+            margin-top: 16px;
+            margin-left: 42px;
+            @include phone(){
+                margin: 8px 6px;
+                margin-bottom: -8px;
+
+            }
+        }
+        
+        .logo h1 a{
+            background-image: url(/images/logo_w@svg.svg);
+            display: block;
+            width: 120px;
+            height: 24px;
+            @include  hide-text;
+        }
+        
+        .fa-bars{
+            display: none;
+            @include phone(){
+                display: block;
+                float: right;
+                margin-top: 7px;
+                margin-right: 14px;
+                color: #fff;
+                font-size: 26px;
+            }
+        }
+
+        .menu{
+            float: right;
+            margin-right: 48px;
+            margin-top: 18px;
+            @include phone(){
+                margin: 0;
+                max-height: 0;
+                overflow: hidden;
+                position: absolute;
+                z-index: 100;
+                top: 38px;
+                left: 0;
+                right: 0;
+                background: #5f3a2c;
+                transition: max-height 3s;
+            }
+            li{
+                margin-left: 48px;
+                float: left;
+                font-size: 16px;
+                @include phone(){
+                    margin: 0;
+                    float: none;
+                    border-bottom: 1px solid #fff;
+                }
+                a{
+                    display: block;
+                    text-decoration: none;
+                    text-align: center;
+                    color: #fff;
+                    @include phone(){
+                        margin: 4px auto;
+                    }
+                }
+            }
+        }
+        .menu-show{
+            max-height: 100px;
+        }
+    }
+    
+    .banner{
+        position: relative;
+        height: 420px;
+        background-color: black;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url(https://firebasestorage.googleapis.com/v0/b/hexschool-api.appspot.com/o/tutorials%2FRWD%2Fheader_desktop.png?alt=media&token=c5b33e25-fded-4758-80f9-231a4755d2d1);
+        @include phone(){
+            background-image: url(https://firebasestorage.googleapis.com/v0/b/hexschool-api.appspot.com/o/tutorials%2FRWD%2Fheader_mobile.png?alt=media&token=44dd4c6d-7d8f-44f9-9510-2a192de38852);
+        }
+        .slogan{
+            position: absolute;
+            z-index:1;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            margin: 10% auto;
+            width: 460px;
+            height: 152px;
+            color: #fff;
+            background-color: #000;
+            background: rgba(0%,0%,0%,0.35);
+            text-align: center;
+            @include phone(){
+                width: 350px;
+                margin-top: 120px;
+            }
+            .big{
+                font-size: 36px;
+                margin: 5% 4.8%;
+                @include phone(){
+                    font-size: 0;
+                    margin: 0;
+                }
+            }
+            .small{
+                font-size: 0px;
+                margin: 0;
+                @include phone(){
+                    font-size: 36px;
+                    margin: 5% 4.8%;
+                }
+            }
+            p{
+                font-style: 16px;
+                line-height: 8px;
+            }
+        }
+    }
+    
+    .footer{
+        background-color: #efe9e7;
+        color: #5f3a2c;
+        padding-bottom: 3%;
+        @include clearfix;
+        .left{
+            float: left;
+            margin-left: 40px;
+            margin-top: 56px;
+            width: 200px;
+            @include pad(){
+                margin-left: 30px;
+            }
+            @include phone(){
+                float: none;
+                margin: 26px 10px;
+            }
+            h1{
+                font-size: 24px;
+                font-weight: bold;
+                margin-bottom: 22px;
+                @include phone(){
+                    margin-bottom: 10px;
+                }
+            }
+            p{
+                display: inline-block;
+                text-align: left;
+            }
+            .info{
+                margin-left: -18px;   
+                @include phone(){
+                    margin: 0;
+                    margin-bottom: 10px;
+                }
+            }
+            li{
+                list-style-type: disc;
+                @include phone(){
+                    margin-left:15px;
+                }
+            }
+        }
+        .right{
+            float: right;
+            margin-top: 56px;
+            margin-right: 42px;
+            @include phone(){
+                margin-top: 26px;
+                margin-right: 16px;
+            }
+            h1{
+                font-size: 49px;
+                font-weight: bold;
+                font-family: $logo-font;
+            }
+            ul{
+                float: right;
+                margin-top: 22px;
+            }
+            li{
+                list-style: none;
+                float: left;
+                font-size: 31px;
+                a{
+                    text-align: center;
+                    text-decoration: none;
+                }
+            }
+            .google i{
+                color:#db4437;
+            }
+            .twitter i{
+                color: #41abe1;
+            }
+            .facebook i{
+                color: #3a5795;
+            }
+        }
+        
+    }
+}
