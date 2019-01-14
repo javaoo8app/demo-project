@@ -7,6 +7,7 @@
 </template>
 <script>
 export default {
+  name: 'HelloVue',
   data () {
     return {
       message: 'Hello Vue.js!'

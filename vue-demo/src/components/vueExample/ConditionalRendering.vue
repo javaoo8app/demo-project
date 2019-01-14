@@ -3,6 +3,7 @@
 </template>
 <script>
 export default {
+  name: 'ConditionalRendering',
   data () {
     return {
       seen: true
