@@ -12,6 +12,7 @@
 
 <script>
 export default {
+  name: 'toodoItem',
   data () {
     return {
       groceryList: [

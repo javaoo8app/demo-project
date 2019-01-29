@@ -7,6 +7,7 @@
 import vTable from '@/components/test/vTable'
 
 export default {
+  name: 'Render',
   components: {
     vTable
   }

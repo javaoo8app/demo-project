@@ -6,6 +6,7 @@
 </template>
 <script>
 export default {
+  name: 'EventHandling',
   data () {
     return {
       message: 'Hello Vue.js!'

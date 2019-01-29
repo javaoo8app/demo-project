@@ -18,18 +18,18 @@
       >
         <b-nav-item-dropdown
           v-if="item.dropdown"
-          v-bind:text="item.title"
+          v-bind:text="item.name"
         >
           <b-dropdown-item
             v-for="it in item.dropdown"
             :key=it.index
-            :to="it.url"
-          >{{ it.title }}</b-dropdown-item>
+            :to="it.path"
+          >{{ it.name }}</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item
           v-else
-          :to="item.url"
-        >{{ item.title }}</b-nav-item>
+          :to="item.path"
+        >{{ item.name }}</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -40,37 +40,20 @@
   <!-- navbar-1.vue -->
 </template>
 <script>
+// import store from '@/store/store'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Navbar',
+  props: ['menuList'],
+  computed: { ...mapGetters(['getMenu']) },
   data () {
     return {
       msg: 'Vue.js App',
-      menu: [
-        { title: 'HOME',
-          url: '/' },
-        { title: 'Vue example',
-          dropdown: [
-            {title: '01 - Hello Vue',
-              url: '/HelloVue'},
-            {title: '02 - Bind Message',
-              url: '/BindMessage'},
-            {title: '03 - Conditional Rendering',
-              url: '/ConditionalRendering'},
-            {title: '04 - List Rendering',
-              url: '/ListRendering'},
-            {title: '05 - Event Handling',
-              url: '/EventHandling'},
-            {title: '06 - Form Input Bindings',
-              url: '/FormInputBindings'},
-            {title: '07 - ComponentG',
-              url: '/ComponentG'},
-            {title: '07.1 - Component',
-              url: '/Component'}
-          ] },
-        { title: 'Render',
-          url: '/Render' }
-      ]
+      menu: ''
     }
+  },
+  created () {
+    this.menu = this.getMenu
   }
 }
 </script>
