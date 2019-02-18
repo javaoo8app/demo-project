@@ -1,13 +1,21 @@
 /* =============== LAYOUT - MENU AREA =============== */
-.container {
-  position: relative;
+// color
+@import "helpers/grid";
+
+$yellow: #fce38a;
+$pink: #f38181;
+$dark: #343a40;
+$white: #fff;
+
+.navbar {
+  padding: 0 !important;
+  @include pad() {
+    padding: 0.5rem 1rem !important;
+  }
 }
-#ho73-navbar {
-  border: none;
-  border-radius: 0;
-}
+
 #ho73-navbar .navbar-nav > li > a {
-  color: #fff;
+  color: $white;
   font-weight: 500;
   text-transform: uppercase;
   border-bottom: 3px solid transparent;
@@ -16,24 +24,25 @@
 #ho73-navbar .navbar-nav > li > a:hover,
 #ho73-navbar .navbar-nav > .active > a,
 #ho73-navbar .navbar-nav > .active > a:hover {
-  color: #fce38a;
-  border-color: #fce38a;
+  color: $yellow;
+  border-color: $yellow;
   background: none;
 }
 .dropdown-menu > a:hover {
-  background-color: #343a40 !important;
-  color: #fce38a !important;
+  background-color: $dark !important;
+  color: $yellow !important;
 }
 
 #ho73-btn {
-  color: #fff !important;
-}
-
-#ho73-btn :hover,
-#ho73-btn :focus {
-  color: #fce38a;
-  background-color: #ea5353 !important;
-  border-color: #ea5353;
-  outline: none !important;
-  box-shadow: none !important;
+  i {
+    color: $white !important;
+  }
+  :hover,
+  :focus {
+    color: $yellow !important;
+    background-color: $pink !important;
+    border-color: $pink;
+    outline: none !important;
+    box-shadow: none !important;
+  }
 }

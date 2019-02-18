@@ -1,6 +1,7 @@
 <template>
   <div>
     <Navbar />
+    <Carousel />
   </div>
 </template>
 
@@ -10,10 +11,12 @@
 
 <script>
   import Navbar from "@/components/Navbar";
+  import Carousel from "@/components/Carousel";
 
   export default {
     components: {
-      Navbar
+      Navbar,
+      Carousel
     }
   };
 </script>

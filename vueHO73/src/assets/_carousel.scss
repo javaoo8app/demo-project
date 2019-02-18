@@ -1,0 +1,60 @@
+.header-carousel-item {
+  height: 500px;
+}
+.bg-gradient {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(
+    243,
+    129,
+    129,
+    0.7
+  ); /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    top,
+    rgba(243, 129, 129, 0.7),
+    rgba(252, 227, 138, 0.7)
+  );
+  background: -o-linear-gradient(
+    top,
+    rgba(243, 129, 129, 0.7),
+    rgba(252, 227, 138, 0.7)
+  );
+  background: linear-gradient(
+    to bottom,
+    rgba(243, 129, 129, 0.7),
+    rgba(252, 227, 138, 0.7)
+  );
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.bg-cover {
+  position: relative;
+  opacity: 0.9;
+  background-size: cover;
+  background-position: center center;
+}
+.carousel-caption {
+  background-color: rgba(243, 129, 129, 0.7);
+  border-radius: 15px;
+  margin: 0px 120px;
+}
+.carousel-item .carousel-caption {
+  opacity: 0;
+  transition: all 0.8s;
+}
+.carousel-item.active .carousel-caption {
+  opacity: 1;
+  transform: translate(0px, -150px);
+  .logo-img {
+    opacity: 1;
+    transform: translate(0px, 100px);
+  }
+}
+.logo-img {
+  background-color: transparent;
+  margin-top: 120px;
+}
