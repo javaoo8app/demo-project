@@ -1,0 +1,39 @@
+/* =============== LAYOUT - MENU AREA =============== */
+.container {
+  position: relative;
+}
+#ho73-navbar {
+  border: none;
+  border-radius: 0;
+}
+#ho73-navbar .navbar-nav > li > a {
+  color: #fff;
+  font-weight: 500;
+  text-transform: uppercase;
+  border-bottom: 3px solid transparent;
+  margin: 0 12px;
+}
+#ho73-navbar .navbar-nav > li > a:hover,
+#ho73-navbar .navbar-nav > .active > a,
+#ho73-navbar .navbar-nav > .active > a:hover {
+  color: #fce38a;
+  border-color: #fce38a;
+  background: none;
+}
+.dropdown-menu > a:hover {
+  background-color: #343a40 !important;
+  color: #fce38a !important;
+}
+
+#ho73-btn {
+  color: #fff !important;
+}
+
+#ho73-btn :hover,
+#ho73-btn :focus {
+  color: #fce38a;
+  background-color: #ea5353 !important;
+  border-color: #ea5353;
+  outline: none !important;
+  box-shadow: none !important;
+}
