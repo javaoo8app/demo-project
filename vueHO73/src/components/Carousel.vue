@@ -42,7 +42,7 @@
           <div class="bg-gradient">
             <div class="carousel-caption d-none d-md-block px-3">
               <h2>Sharing Love</h2>
-              <p>愛的溫度，是我能為你做的事情。點亮盼望，傳遞。</p>
+              <p>愛的溫度，是我能為你做的事情。點亮盼望，傳遞愛。</p>
             </div>
           </div>
         </div>

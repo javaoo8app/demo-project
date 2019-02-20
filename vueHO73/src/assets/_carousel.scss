@@ -1,3 +1,5 @@
+@import "helpers/grid";
+
 .header-carousel-item {
   height: 500px;
 }
@@ -50,7 +52,6 @@
   opacity: 1;
   transform: translate(0px, -150px);
   .logo-img {
-    opacity: 1;
     transform: translate(0px, 100px);
   }
 }

@@ -6,6 +6,8 @@ import VueRouter from "vue-router";
 // import HelloWorld from "@/components/HelloWorld";
 import Login from "@/views/Login";
 import Home from "@/views/Home";
+import Dashboard from "@/views/Dashboard";
+import Products from "@/views/Dashboard/Products";
 
 Vue.use(VueRouter);
 
@@ -29,6 +31,18 @@ export default new VueRouter({
       path: "/",
       name: "Home",
       component: Home
+    },
+    {
+      path: "/admin",
+      name: "Dashboard",
+      component: Dashboard,
+      children: [
+        {
+          path: "products",
+          name: "Products",
+          component: Products
+        }
+      ]
     }
   ]
 });
