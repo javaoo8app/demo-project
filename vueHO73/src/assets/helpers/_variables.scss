@@ -36,7 +36,7 @@ $grays: map-merge(
 
 $hoDpink: #ea5353 !default;
 $hoYellow: #fce38a !default;
-$hoBlue: #95e1d3 !default;
+$hoBlue: #47ccb3 !default;
 $hoPink: #f38181 !default;
 $blue: #007bff !default;
 $indigo: #6610f2 !default;
@@ -73,7 +73,8 @@ $colors: map-merge(
 $primary: $hoPink !default;
 $secondary: $gray-600 !default;
 $success: $green !default;
-$info: $cyan !default;
+// $info: $cyan !default;
+$info: $hoBlue !default;
 $warning: $yellow !default;
 $danger: $red !default;
 $light: $gray-100 !default;

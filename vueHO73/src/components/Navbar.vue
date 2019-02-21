@@ -58,6 +58,7 @@
               </a>
               <div
                 class="dropdown-menu bg-dark"
+                id="ho73-dropdown"
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <router-link
@@ -89,7 +90,8 @@
           <form class="form-inline my-2 my-l-0">
             <router-link
               to="/login"
-              id="ho73-btn"
+              id="ho73-nav-btn"
+              class="nav-link"
             >
               <button
                 class="btn btn-primary mr-1"
@@ -107,7 +109,8 @@
             </button> -->
             <router-link
               to=""
-              id="ho73-btn"
+              id="ho73-nav-btn"
+              class="nav-link"
             >
               <button
                 class="btn btn-primary"
@@ -124,7 +127,7 @@
 </template>
 
 <script>
-  import "../assets/navbar.scss";
+  import "../assets/_navbar.scss";
 
   export default {
     name: "Navbar",

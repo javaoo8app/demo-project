@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navbar />
     <form
       class="form-signin"
       @submit.prevent="signin"
@@ -49,8 +50,12 @@
 </template>
 
 <script>
+  import Navbar from "@/components/Navbar";
   export default {
     name: "Login",
+    components: {
+      Navbar
+    },
     data() {
       return {
         user: {
@@ -66,7 +71,7 @@
         this.$http.post(api, vm.user).then(response => {
           console.log(response.data);
           if (response.data.success) {
-            vm.$router.push("/admin/products");
+            vm.$router.push("/admin/products/productList");
           }
         });
       }

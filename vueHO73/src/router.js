@@ -8,6 +8,8 @@ import Login from "@/views/Login";
 import Home from "@/views/Home";
 import Dashboard from "@/views/Dashboard";
 import Products from "@/views/Dashboard/Products";
+import ProductList from "@/views/Dashboard/products/ProductList";
+import OrderList from "@/views/Dashboard/products/OrderList";
 
 Vue.use(VueRouter);
 
@@ -36,11 +38,32 @@ export default new VueRouter({
       path: "/admin",
       name: "Dashboard",
       component: Dashboard,
+      meta: { requiresAuth: true },
       children: [
         {
           path: "products",
           name: "Products",
-          component: Products
+          component: Products,
+          meta: { requiresAuth: true },
+          children: [
+            {
+              path: "productList",
+              name: "ProductList",
+              component: ProductList,
+              meta: { requiresAuth: true }
+            },
+            {
+              path: "orderList",
+              name: "OrderList",
+              component: OrderList,
+              meta: { requiresAuth: true }
+            }
+            // {
+            //   path: "coupons",
+            //   name: "Coupons",
+            //   component: Coupons
+            // }
+          ]
         }
       ]
     }

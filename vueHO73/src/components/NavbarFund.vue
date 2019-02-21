@@ -45,6 +45,7 @@
               </a>
               <div
                 class="dropdown-menu bg-dark"
+                id="ho73-dropdown"
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <router-link
@@ -72,6 +73,7 @@
               </a>
               <div
                 class="dropdown-menu bg-dark"
+                id="ho73-dropdown"
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <router-link
@@ -103,7 +105,7 @@
           <form class="form-inline my-2 my-l-0">
             <router-link
               to=""
-              id="ho73-btn"
+              id="ho73-nav-btn"
             >
               <button
                 class="btn btn-primary mr-1"
@@ -114,7 +116,7 @@
             </router-link>
             <router-link
               to=""
-              id="ho73-btn"
+              id="ho73-nav-btn"
             >
               <button
                 class="btn btn-primary mr-1"
@@ -132,7 +134,7 @@
 </template>
 
 <script>
-  import "../assets/navbar.scss";
+  import "../assets/_navbar.scss";
 
   export default {
     name: "Navbar",
@@ -149,3 +151,9 @@
     }
   };
 </script>
+
+<style>
+  .navbar {
+    z-index: 999;
+  }
+</style>

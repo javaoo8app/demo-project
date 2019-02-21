@@ -28,19 +28,19 @@ $white: #fff;
   border-color: $yellow;
   background: none;
 }
-.dropdown-menu > a:hover {
-  background-color: $dark !important;
-  color: $yellow !important;
+#ho73-dropdown > a:hover {
+  background-color: $dark;
+  color: $yellow;
 }
 
-#ho73-btn {
+#ho73-nav-btn {
   i {
-    color: $white !important;
+    color: $white;
   }
   :hover,
   :focus {
-    color: $yellow !important;
-    background-color: $pink !important;
+    color: $yellow;
+    background-color: $pink;
     border-color: $pink;
     outline: none !important;
     box-shadow: none !important;
