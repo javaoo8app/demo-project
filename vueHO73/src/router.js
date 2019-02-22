@@ -3,7 +3,6 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 
 //自訂元件
-// import HelloWorld from "@/components/HelloWorld";
 import Login from "@/views/Login";
 import Home from "@/views/Home";
 import Dashboard from "@/views/Dashboard";

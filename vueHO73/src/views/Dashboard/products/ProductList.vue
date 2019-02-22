@@ -1,37 +1,38 @@
 <template>
   <div>
     <div class="container-fluid mt-4 main">
-      <form class="form-inline d-flex">
-        <!-- 使用 ml-auto 搭配 d-flex，將按鈕推到最右邊  -->
-        <div class="input-group input-group-sm mb-2 mb-sm-0">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search for..."
-            aria-label="Recipient's username"
-            aria-describedby="button-addon2"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="按下 Enter 快速收尋"
-          >
-          <div class="input-group-append ">
-            <button
-              class="btn btn-secondary"
-              type="button"
-              id="button-addon2"
-            ><i class="fas fa-search"></i></button>
+      <div class="row">
+        <div class="col-8 col-md-4">
+          <div class="input-group input-group-sm mb-2 mb-sm-0">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search for..."
+              aria-label="Recipient's username"
+              aria-describedby="button-addon2"
+              data-toggle="tooltip"
+              data-placement="top"
+              title="按下 Enter 快速收尋"
+            >
+            <div class="input-group-append ">
+              <button
+                class="btn btn-secondary"
+                type="button"
+                id="button-addon2"
+              ><i class="fas fa-search"></i></button>
+            </div>
           </div>
         </div>
-        <div class="text-right ml-auto">
+        <div class="col-4 col-md-8 text-right ml-auto">
           <button
             id="ho73-btn"
             class="btn btn-info"
+            @click="openModal(true)"
           >
-            <a>建立新產品</a>
+            建立新產品
           </button>
         </div>
-      </form>
-
+      </div>
       <div class="table-responsive">
         <table class="table table-hover mt-4">
           <thead>
@@ -45,13 +46,20 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>一般商品</td>
-              <td>愛心餅乾</td>
-              <td class="text-right">10000</td>
-              <td class="text-right">200</td>
+            <tr
+              v-for="(item) in products"
+              :key="item.id"
+            >
+              <td>{{ item.category }}</td>
+              <td>{{ item.title }}</td>
+              <td class="text-right">{{ item.origin_price }}</td>
+              <td class="text-right">{{ item.price }}</td>
               <td>
-                <span class="text-success">啟用</span>
+                <span
+                  v-if="item.is_enabled"
+                  class="text-success"
+                >啟用</span>
+                <span v-else>未啟用</span>
               </td>
               <td>
                 <div
@@ -70,6 +78,7 @@
                     data-product="0"
                     data-number="2"
                     data-backdrop="static"
+                    @click="openModal(false, item)"
                   >編輯</button>
                   <button
                     type="button"
@@ -99,80 +108,16 @@
                         href="#"
                       >加入 YYY</a>
                       <div class="dropdown-divider"></div>
-                      <a
-                        class="dropdown-item text-danger"
-                        href="#"
-                        data-toggle="modal"
-                        data-target="#removeModal"
-                        data-title="刪除訂單【00112255】"
-                      >刪除</a>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>一般商品</td>
-              <td>愛心餅乾</td>
-              <td class="text-right">10000</td>
-              <td class="text-right">200</td>
-              <td>
-                <span class="text-success">啟用</span>
-              </td>
-              <td>
-                <div
-                  class="btn-group btn-group-sm"
-                  role="group"
-                  aria-label="Button group with nested dropdown"
-                  id="ho73-btn-gp"
-                >
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary"
-                    data-toggle="modal"
-                    data-target="#editModal"
-                    data-title="訂單【00112255】"
-                    data-name="Mark"
-                    data-email="Mark@mail.com"
-                    data-product="0"
-                    data-number="2"
-                    data-backdrop="static"
-                  >編輯</button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-secondary"
-                  >查看</button>
-                  <div
-                    class="btn-group btn-group-sm"
-                    role="group"
-                  >
-                    <button
-                      id="btnGroupDrop1"
-                      type="button"
-                      class="btn btn-outline-secondary dropdown-toggle"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      其他
-                    </button>
-                    <div class="dropdown-menu">
-                      <a
-                        class="dropdown-item"
-                        href="#"
-                      >加入 XXX</a>
-                      <a
-                        class="dropdown-item"
-                        href="#"
-                      >加入 YYY</a>
-                      <div class="dropdown-divider"></div>
-                      <a
-                        class="dropdown-item text-danger"
-                        href="#"
-                        data-toggle="modal"
-                        data-target="#removeModal"
-                        data-title="刪除訂單【00112255】"
-                      >刪除</a>
+                      <div id="ho73-del-btn">
+                        <a
+                          class="dropdown-item text-danger"
+                          href="#"
+                          data-toggle="modal"
+                          data-target="#removeModal"
+                          data-title=""
+                          @click="openDelModal(item)"
+                        >刪除</a>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -182,12 +127,328 @@
         </table>
       </div>
     </div>
+
+    <!-- productModal -->
+    <div
+      class="modal fade"
+      id="productModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog modal-lg"
+        role="document"
+      >
+        <div class="modal-content border-0">
+          <div class="modal-header bg-dark text-white">
+            <h5
+              class="modal-title"
+              id="exampleModalLabel"
+            >
+              <span v-if="isNew">新增產品</span>
+              <span v-else>修改產品</span>
+            </h5>
+            <button
+              type="button"
+              class="close text-light"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="form-group">
+                  <label for="image">輸入圖片網址</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="image"
+                    placeholder="請輸入圖片連結"
+                    v-model="tempProduct.imageUrl"
+                  >
+                </div>
+                <div class="form-group">
+                  <label for="customFile">或 上傳圖片
+                    <!-- <i class="fas fa-spinner fa-spin"></i> -->
+                  </label>
+                  <input
+                    type="file"
+                    id="customFile"
+                    class="form-control"
+                    ref="files"
+                    @change="uploadFile"
+                  >
+                </div>
+                <img
+                  class="img-fluid"
+                  alt=""
+                  :src="tempProduct.imageUrl"
+                >
+              </div>
+              <div class="col-sm-8">
+                <div class="form-group">
+                  <label for="title">標題</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="title"
+                    placeholder="請輸入標題"
+                    v-model="tempProduct.title"
+                  >
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="category">分類</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="category"
+                      placeholder="請輸入分類"
+                      v-model="tempProduct.category"
+                    >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="price">單位</label>
+                    <input
+                      type="unit"
+                      class="form-control"
+                      id="unit"
+                      placeholder="請輸入單位"
+                      v-model="tempProduct.unit"
+                    >
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="origin_price">原價</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="origin_price"
+                      placeholder="請輸入原價"
+                      v-model="tempProduct.origin_price"
+                    >
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="price">售價</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="price"
+                      placeholder="請輸入售價"
+                      v-model="tempProduct.price"
+                    >
+                  </div>
+                </div>
+                <hr>
+
+                <div class="form-group">
+                  <label for="description">產品描述</label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="description"
+                    placeholder="請輸入產品描述"
+                    v-model="tempProduct.description"
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="content">說明內容</label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="content"
+                    placeholder="請輸入產品說明內容"
+                    v-model="tempProduct.content"
+                  ></textarea>
+                </div>
+                <div class="form-group">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="is_enabled"
+                      v-model="tempProduct.is_enabled"
+                      :true-value="1"
+                      :false-value="0"
+                    >
+                    <label
+                      class="form-check-label"
+                      for="is_enabled"
+                    >
+                      是否啟用
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-dismiss="modal"
+            >取消</button>
+            <button
+              type="button"
+              class="btn btn-info"
+              id="ho73-btn"
+              @click="updateProduct"
+            >確認</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- delProductModal -->
+    <div
+      class="modal fade mt-5"
+      id="delProductModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div
+        class="modal-dialog"
+        role="document"
+      >
+        <div class="modal-content border-0">
+          <div class="modal-header bg-primary text-white">
+            <h5
+              class="modal-title"
+              id="exampleModalLabel"
+            >
+              <span>刪除產品</span>
+            </h5>
+            <button
+              type="button"
+              class="close text-light"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            是否刪除 <strong class="text-primary">{{ tempProduct.title }}</strong> 商品(刪除後將無法恢復)。
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-dismiss="modal"
+            >取消</button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              style="color:#fff"
+              @click="delProduct"
+            >確認刪除</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+  import $ from "jquery";
+
   export default {
-    components: {}
+    data() {
+      return {
+        products: [],
+        tempProduct: {},
+        isNew: false
+      };
+    },
+    methods: {
+      getProducts() {
+        const api = `${process.env.APIPATH}/api/${
+          process.env.CUSTOMPATH
+        }/admin/products/all`;
+        const vm = this;
+        this.$http.get(api, vm.user).then(response => {
+          console.log(response.data);
+          if (response.data.success) {
+            vm.products = response.data.products;
+          }
+        });
+      },
+      updateProduct() {
+        let api = `${process.env.APIPATH}/api/${
+          process.env.CUSTOMPATH
+        }/admin/product`;
+        let httpMethod = "post";
+        const vm = this;
+        // 修改產品
+        if (!vm.isNew) {
+          api = `${process.env.APIPATH}/api/${
+            process.env.CUSTOMPATH
+          }/admin/product/${vm.tempProduct.id}`;
+          httpMethod = "put";
+        }
+        // 新增產品
+        this.$http[httpMethod](api, { data: vm.tempProduct }).then(response => {
+          console.log(response.data);
+          if (response.data.success) {
+            $("#productModal").modal("hide");
+            vm.getProducts();
+          } else {
+            $("#productModal").modal("hide");
+            console.log("新增錯誤");
+          }
+        });
+      },
+      delProduct() {
+        const vm = this;
+        const api = `${process.env.APIPATH}/api/${
+          process.env.CUSTOMPATH
+        }/admin/product/${vm.tempProduct.id}`;
+        this.$http.delete(api, { data: vm.tempProduct }).then(response => {
+          console.log(response.data);
+          if (response.data.success) {
+            $("#delProductModal").modal("hide");
+            vm.getProducts();
+          } else {
+            $("#delProductModal").modal("hide");
+            vm.getProducts();
+            console.log("刪除失敗");
+          }
+        });
+      },
+      uploadFile() {},
+      openModal(isNew, item) {
+        if (isNew) {
+          this.tempProduct = {};
+          this.isNew = true;
+        } else {
+          // 避免this.tempProduct與item有參考，所以用此
+          this.tempProduct = Object.assign({}, item);
+          this.isNew = false;
+        }
+        $("#productModal").modal("show");
+      },
+      openDelModal(item) {
+        this.tempProduct = Object.assign({}, item);
+        $("#delProductModal").modal("show");
+      }
+    },
+    created() {
+      this.getProducts();
+    },
+    mounted() {
+      $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    }
   };
 </script>
 
@@ -196,8 +457,14 @@
     color: #ffffff;
   }
 
-  #ho73-btn :hover {
+  #ho73-btn :hover,
+  .close {
     outline: none !important;
     box-shadow: none !important;
+  }
+
+  #ho73-del-btn a:hover {
+    color: #fff !important;
+    background: #f38181;
   }
 </style>
