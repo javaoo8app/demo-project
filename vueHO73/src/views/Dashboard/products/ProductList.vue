@@ -70,13 +70,6 @@
                   <button
                     type="button"
                     class="btn btn-outline-secondary"
-                    data-toggle="modal"
-                    data-target="#editModal"
-                    data-title="訂單【00112255】"
-                    data-name="Mark"
-                    data-email="Mark@mail.com"
-                    data-product="0"
-                    data-number="2"
                     data-backdrop="static"
                     @click="openModal(false, item)"
                   >編輯</button>
@@ -426,6 +419,8 @@
       },
       uploadFile() {},
       openModal(isNew, item) {
+        //關閉Modal外部及Esc事件
+        $("#productModal").modal({ backdrop: "static", keyboard: false });
         if (isNew) {
           this.tempProduct = {};
           this.isNew = true;
@@ -437,6 +432,7 @@
         $("#productModal").modal("show");
       },
       openDelModal(item) {
+        $("#delProductModal").modal({ backdrop: "static", keyboard: false });
         this.tempProduct = Object.assign({}, item);
         $("#delProductModal").modal("show");
       }

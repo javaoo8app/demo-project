@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Navbar />
+    <Navbar class="sticky-top" />
     <Carousel />
   </div>
 </template>
