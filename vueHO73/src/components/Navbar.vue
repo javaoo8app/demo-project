@@ -63,17 +63,14 @@
               >
                 <router-link
                   class="dropdown-item nav-link pl-2"
-                  style="background-color:#343a40"
                   to=""
                 >捐款</router-link>
                 <router-link
                   class="dropdown-item nav-link pl-2"
-                  style="background-color:#343a40"
                   to=""
                 >捐物</router-link>
                 <router-link
                   class="dropdown-item nav-link pl-2"
-                  style="background-color:#343a40"
                   to=""
                 >志工服務</router-link>
               </div>

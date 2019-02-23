@@ -369,7 +369,7 @@
         }/admin/products/all`;
         const vm = this;
         this.$http.get(api, vm.user).then(response => {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.success) {
             vm.products = response.data.products;
           }
@@ -390,7 +390,7 @@
         }
         // 新增產品
         this.$http[httpMethod](api, { data: vm.tempProduct }).then(response => {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.success) {
             $("#productModal").modal("hide");
             vm.getProducts();
@@ -406,7 +406,7 @@
           process.env.CUSTOMPATH
         }/admin/product/${vm.tempProduct.id}`;
         this.$http.delete(api, { data: vm.tempProduct }).then(response => {
-          console.log(response.data);
+          // console.log(response.data);
           if (response.data.success) {
             $("#delProductModal").modal("hide");
             vm.getProducts();
@@ -417,7 +417,6 @@
           }
         });
       },
-      uploadFile() {},
       openModal(isNew, item) {
         //關閉Modal外部及Esc事件
         $("#productModal").modal({ backdrop: "static", keyboard: false });
@@ -435,6 +434,31 @@
         $("#delProductModal").modal({ backdrop: "static", keyboard: false });
         this.tempProduct = Object.assign({}, item);
         $("#delProductModal").modal("show");
+      },
+      uploadFile() {
+        // console.log(this);
+        const uploadedFile = this.$refs.files.files[0];
+        const vm = this;
+        const formData = new FormData();
+        formData.append("file-to-upload", uploadedFile);
+        const url = `${process.env.APIPATH}/api/${
+          process.env.CUSTOMPATH
+        }/admin/upload`;
+        this.$http
+          .post(url, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          })
+          .then(response => {
+            console.log(response.data);
+            if (response.data.success) {
+              // vm.tempProduct.imageUrl = response.data.imageUrl;
+              // console.log(vm.tempProduct);
+              //因上面方式無法綁定到畫面，改為強制寫入，顯示於畫面
+              vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
+            }
+          });
       }
     },
     created() {

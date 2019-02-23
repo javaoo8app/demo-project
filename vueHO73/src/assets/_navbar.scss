@@ -28,9 +28,12 @@ $white: #fff;
   border-color: $yellow;
   background: none;
 }
-#ho73-dropdown > a:hover {
+
+#ho73-dropdown > a {
   background-color: $dark;
-  color: $yellow;
+  &:hover {
+    color: $yellow;
+  }
 }
 
 #ho73-nav-btn {

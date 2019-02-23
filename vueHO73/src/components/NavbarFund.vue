@@ -9,7 +9,7 @@
           class="navbar-brand"
           href="#"
         >
-          <!-- 改成會員基金會名稱 -->
+          <!-- 之後改成會員基金會名稱 -->
           <img
             src="../assets/images/ico/Ho73-logo.png"
             height="40"
@@ -50,12 +50,10 @@
               >
                 <router-link
                   class="dropdown-item nav-link pl-2"
-                  style="background-color:#343a40"
                   to=""
                 >最新消息管理</router-link>
                 <router-link
                   class="dropdown-item nav-link pl-2"
-                  style="background-color:#343a40"
                   to=""
                 >志工活動管理</router-link>
               </div>
@@ -78,17 +76,14 @@
               >
                 <router-link
                   class="dropdown-item nav-link pl-2"
-                  style="background-color:#343a40"
                   to=""
                 >募款管理</router-link>
                 <router-link
                   class="dropdown-item nav-link pl-2"
-                  style="background-color:#343a40"
                   to=""
                 >物資管理</router-link>
                 <router-link
                   class="dropdown-item nav-link pl-2"
-                  style="background-color:#343a40"
                   to="/admin/products"
                 >商品管理</router-link>
               </div>
