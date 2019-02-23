@@ -9,18 +9,13 @@ import App from "./App";
 import router from "./router";
 
 import "bootstrap";
-import "@mdi/font/css/materialdesignicons.css";
-import Vuetify from "vuetify";
+import "./bus";
 
 Vue.use(VueAxios, axios);
 Vue.component("Loading", Loading);
 axios.defaults.withCredentials = true;
 
 Vue.config.productionTip = false;
-
-Vue.use(Vuetify, {
-  iconfont: "mdi"
-});
 
 /* eslint-disable no-new */
 new Vue({

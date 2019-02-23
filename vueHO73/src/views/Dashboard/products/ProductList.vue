@@ -145,7 +145,10 @@
         role="document"
       >
         <div class="modal-content border-0">
-          <div class="modal-header bg-dark text-white">
+          <div
+            class="modal-header text-white"
+            :class="isNew ? 'bg-info' : 'bg-dark'"
+          >
             <h5
               class="modal-title"
               id="exampleModalLabel"
@@ -451,7 +454,8 @@
         $("#productModal").modal("show");
       },
       openDelModal(item) {
-        $("#delProductModal").modal({ backdrop: "static", keyboard: false });
+        //需要將DelModal的點擊外部關閉再將下面註解開啟
+        // $("#delProductModal").modal({ backdrop: "static", keyboard: false });
         this.tempProduct = Object.assign({}, item);
         $("#delProductModal").modal("show");
       },
@@ -481,6 +485,16 @@
               // console.log(vm.tempProduct);
               //因上面方式無法綁定到畫面，改為強制寫入，顯示於畫面
               vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
+            } else {
+              if (typeof response.data.message == "string") {
+                this.$bus.$emit("message:push", response.data.message, "danger");
+              } else {
+                this.$bus.$emit(
+                  "message:push",
+                  response.data.message.message,
+                  "danger"
+                );
+              }
             }
           });
       }
