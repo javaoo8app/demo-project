@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav
-      class="navbar navbar-expand-sm navbar-dark bg-primary"
+      class="navbar navbar-expand-lg navbar-dark bg-primary"
       id="ho73-navbar"
     >
       <div class="container">

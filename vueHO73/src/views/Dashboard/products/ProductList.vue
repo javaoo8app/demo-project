@@ -1,6 +1,16 @@
 <template>
   <div>
     <div class="container-fluid mt-4 main">
+      <loading :active.sync="isLoading">
+        <div class="img-center">
+          <img
+            class="w-50"
+            style=""
+            src="@/assets/images/ho73Loading.gif"
+            alt=""
+          >
+        </div>
+      </loading>
       <div class="row">
         <div class="col-8 col-md-4">
           <div class="input-group input-group-sm mb-2 mb-sm-0">
@@ -167,7 +177,10 @@
                 </div>
                 <div class="form-group">
                   <label for="customFile">或 上傳圖片
-                    <!-- <i class="fas fa-spinner fa-spin"></i> -->
+                    <i
+                      class="fas fa-spinner fa-spin"
+                      v-if="status.fileUploading"
+                    ></i>
                   </label>
                   <input
                     type="file"
@@ -359,7 +372,11 @@
       return {
         products: [],
         tempProduct: {},
-        isNew: false
+        isNew: false,
+        isLoading: false,
+        status: {
+          fileUploading: false
+        }
       };
     },
     methods: {
@@ -368,8 +385,11 @@
           process.env.CUSTOMPATH
         }/admin/products/all`;
         const vm = this;
+        //增加loading
+        vm.isLoading = true;
         this.$http.get(api, vm.user).then(response => {
           // console.log(response.data);
+          vm.isLoading = false;
           if (response.data.success) {
             vm.products = response.data.products;
           }
@@ -444,6 +464,8 @@
         const url = `${process.env.APIPATH}/api/${
           process.env.CUSTOMPATH
         }/admin/upload`;
+        //開啟Loading圖示
+        vm.status.fileUploading = true;
         this.$http
           .post(url, formData, {
             headers: {
@@ -451,7 +473,9 @@
             }
           })
           .then(response => {
-            console.log(response.data);
+            // console.log(response.data);
+            //關閉Loading圖示
+            vm.status.fileUploading = false;
             if (response.data.success) {
               // vm.tempProduct.imageUrl = response.data.imageUrl;
               // console.log(vm.tempProduct);
@@ -486,5 +510,9 @@
   #ho73-del-btn a:hover {
     color: #fff !important;
     background: #f38181;
+  }
+  .img-center {
+    text-align: center;
+    zoom: 0.8;
   }
 </style>
