@@ -128,6 +128,12 @@
             </tr>
           </tbody>
         </table>
+
+        <!-- pagination -->
+        <Pagination
+          @changePage="getProducts"
+          :propPage="pagination"
+        ></Pagination>
       </div>
     </div>
 
@@ -369,8 +375,12 @@
 
 <script>
   import $ from "jquery";
+  import Pagination from "@/components/Pagination";
 
   export default {
+    components: {
+      Pagination
+    },
     data() {
       return {
         products: [],
@@ -379,22 +389,24 @@
         isLoading: false,
         status: {
           fileUploading: false
-        }
+        },
+        pagination: {}
       };
     },
     methods: {
-      getProducts() {
+      getProducts(page = 1) {
         const api = `${process.env.APIPATH}/api/${
           process.env.CUSTOMPATH
-        }/admin/products/all`;
+        }/admin/products/?page=${page}`;
         const vm = this;
         //增加loading
         vm.isLoading = true;
-        this.$http.get(api, vm.user).then(response => {
+        this.$http.get(api).then(response => {
           // console.log(response.data);
           vm.isLoading = false;
           if (response.data.success) {
             vm.products = response.data.products;
+            vm.pagination = response.data.pagination;
           }
         });
       },
@@ -485,6 +497,7 @@
               // console.log(vm.tempProduct);
               //因上面方式無法綁定到畫面，改為強制寫入，顯示於畫面
               vm.$set(vm.tempProduct, "imageUrl", response.data.imageUrl);
+              //回覆錯誤訊息
             } else {
               if (typeof response.data.message == "string") {
                 this.$bus.$emit("message:push", response.data.message, "danger");
@@ -501,6 +514,7 @@
     },
     created() {
       this.getProducts();
+      // this.$bus.$emit("message:push", "這是一段訊息", "success");
     },
     mounted() {
       $(function() {

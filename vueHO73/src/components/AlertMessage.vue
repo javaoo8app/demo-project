@@ -25,11 +25,11 @@
     data() {
       return {
         messages: [
-          {
-            message: "訊息內容",
-            status: "danger",
-            timestamp: 123
-          }
+          // {
+          //   message: "訊息內容",
+          //   status: "danger",
+          //   timestamp: 123
+          // }
         ]
       };
     },
@@ -77,5 +77,9 @@
     top: 56px;
     right: 20px;
     z-index: 1100;
+  }
+  .close {
+    outline: none !important;
+    box-shadow: none !important;
   }
 </style>
