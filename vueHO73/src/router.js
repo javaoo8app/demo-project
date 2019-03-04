@@ -7,6 +7,7 @@ import Login from "@/views/Login";
 import Home from "@/views/Home";
 import HomePage from "@/views/HomePages/HomePage";
 import Shop from "@/views/HomePages/Shop";
+import Detail from "@/views/HomePages/shop/Detail";
 import Dashboard from "@/views/Dashboard";
 import Products from "@/views/Dashboard/Products";
 import ProductList from "@/views/Dashboard/products/ProductList";
@@ -43,7 +44,14 @@ export default new VueRouter({
         {
           path: "shop",
           name: "Shop",
-          component: Shop
+          component: Shop,
+          children: [
+            {
+              path: "detail/:productId",
+              name: "Detail",
+              component: Detail
+            }
+          ]
         }
       ]
     },

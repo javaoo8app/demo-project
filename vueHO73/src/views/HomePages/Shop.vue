@@ -126,6 +126,7 @@
                     id="ho73-btn"
                     type="button"
                     class="btn btn-info btn-md ml-auto"
+                    @click="addtoCart(item)"
                   >
                     <!-- <i class="fas fa-spinner fa-spin"></i> -->
                     加到購物車
@@ -165,6 +166,21 @@
           vm.products = response.data.products;
           vm.filterProducts = vm.products;
           console.log(response);
+        });
+      },
+      addtoCart(item, qty = 1) {
+        const vm = this;
+        const url = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
+        const cart = {
+          product_id: item.id,
+          qty
+        };
+        vm.isLoading = true;
+        this.$http.post(url, { data: cart }).then(response => {
+          console.log(response);
+          let msg = item.title + response.data.message;
+          vm.$bus.$emit("message:push", msg, "info");
+          vm.isLoading = false;
         });
       },
       filterPro(category) {

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Alert />
     <Navbar class="sticky-top" />
     <!-- <Carousel /> -->
     <router-view></router-view>
@@ -13,11 +14,13 @@
 <script>
   import Navbar from "@/components/Navbar";
   import Carousel from "@/components/Carousel";
+  import Alert from "@/components/AlertMessage.vue";
 
   export default {
     components: {
       Navbar,
-      Carousel
+      Carousel,
+      Alert
     }
   };
 </script>
