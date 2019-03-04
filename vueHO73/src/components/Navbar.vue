@@ -7,7 +7,7 @@
       <div class="container">
         <a
           class="navbar-brand"
-          href="#"
+          href="/"
         >
           <img
             src="../assets/images/ico/Ho73-logo.png"
@@ -105,6 +105,17 @@
                 <i class="fas fa-user-alt fa-2x"></i>
               </button>
             </router-link>
+            <button
+              id="btn-cart"
+              class="btn btn-primary mr-1"
+              type="button"
+            >
+              <i class="fas fa-shopping-cart fa-2x"></i>
+              <span
+                class="badge badge-pill badge-danger"
+                v-if="!cartNum == 0"
+              >{{ cartNum }}</span>
+            </button>
             <!-- <button
               class="btn btn-primary mr-1"
               type="button"
@@ -114,7 +125,7 @@
             </button> -->
 
             <!-- 購物車下拉選單 -->
-            <div
+            <!-- <div
               class="dropdown"
               id="dropdown"
             >
@@ -132,7 +143,6 @@
                 ></i>
                 <span class="badge badge-pill badge-danger">11</span>
               </button>
-              <!-- 購物車下拉選單 -->
               <div
                 class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right p-3"
                 aria-labelledby="CartDropdown"
@@ -145,22 +155,20 @@
                     <tbody>
                       <tr>
                         <th scope="row">
-                          <!-- .data-titl 自訂義data-* 讓 modal JS 讀取資料 -->
                           <a
                             href="#delete"
                             data-toggle="modal"
-                            data-title="金牌西裝1件"
+                            data-title="愛心餅乾"
                           >
                             <i class="far fa-trash-alt"></i>
                           </a>
                         </th>
-                        <td>特工西裝</td>
-                        <td>1件</td>
-                        <td>$888</td>
+                        <td>愛心餅乾</td>
+                        <td>1包</td>
+                        <td>$99</td>
                       </tr>
                     </tbody>
                   </table>
-                  <!-- btn-block 將按鈕寬度變成100% -->
                   <router-link to="/">
                     <button class="btn btn-warning btn-block">
                       <i class="fas fa-shopping-bag"> 結帳去</i>
@@ -168,7 +176,7 @@
                   </router-link>
                 </div>
               </div>
-            </div>
+            </div> -->
           </form>
         </div>
       </div>
@@ -181,6 +189,12 @@
 
   export default {
     name: "Navbar",
+    data() {
+      return {
+        cart: [],
+        cartNum: 0
+      };
+    },
     methods: {
       logout() {
         const api = `${process.env.APIPATH}/logout`;
@@ -190,7 +204,19 @@
             vm.$router.push("/login");
           }
         });
+      },
+      getCart() {
+        const vm = this;
+        const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
+        this.$http.get(api).then(response => {
+          console.log(response);
+          vm.cart = response.data.data;
+          vm.cartNum = vm.cart.carts.length;
+        });
       }
+    },
+    created() {
+      this.getCart();
     }
   };
 </script>

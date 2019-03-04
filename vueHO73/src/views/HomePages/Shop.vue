@@ -118,6 +118,7 @@
                     id="ho73-btn"
                     type="button"
                     class="btn btn-primary btn-md"
+                    @click="goDetail(item.id)"
                   >
                     <!-- <i class="fas fa-spinner fa-spin"></i> -->
                     查看更多
@@ -182,6 +183,9 @@
           vm.$bus.$emit("message:push", msg, "info");
           vm.isLoading = false;
         });
+      },
+      goDetail(id) {
+        this.$router.push(`/shop/detail/${id}`);
       },
       filterPro(category) {
         const vm = this;
