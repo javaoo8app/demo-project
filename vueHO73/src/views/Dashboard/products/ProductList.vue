@@ -17,12 +17,12 @@
             <input
               type="text"
               class="form-control"
-              placeholder="Search for..."
+              placeholder="搜尋商品"
               aria-label="Recipient's username"
               aria-describedby="button-addon2"
               data-toggle="tooltip"
               data-placement="top"
-              title="按下 Enter 快速收尋"
+              title="按下 Enter 快速搜尋"
             >
             <div class="input-group-append ">
               <button

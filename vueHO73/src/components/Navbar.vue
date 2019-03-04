@@ -78,6 +78,14 @@
             <li class="nav-item">
               <router-link
                 class="nav-link"
+                to="/shop"
+              >
+                義賣商品
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
                 to=""
               >
                 關於本站
@@ -94,7 +102,7 @@
                 class="btn btn-primary mr-1"
                 type="button"
               >
-                <i class="fas fa-user-alt fa-lg"></i>
+                <i class="fas fa-user-alt fa-2x"></i>
               </button>
             </router-link>
             <!-- <button
@@ -104,18 +112,63 @@
             >
               <i class="mdi mdi-account-minus h4"></i>
             </button> -->
-            <router-link
-              to=""
-              id="ho73-nav-btn"
-              class="nav-link"
+
+            <!-- 購物車下拉選單 -->
+            <div
+              class="dropdown"
+              id="dropdown"
             >
               <button
+                id="btn-cart"
                 class="btn btn-primary"
                 type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
               >
-                <i class="fas fa-shopping-cart fa-lg"></i>
+                <i
+                  class="fas fa-shopping-cart fa-2x text-white"
+                  aria-hidden="true"
+                ></i>
+                <span class="badge badge-pill badge-danger">11</span>
               </button>
-            </router-link>
+              <!-- 購物車下拉選單 -->
+              <div
+                class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right p-3"
+                aria-labelledby="CartDropdown"
+                style="min-width: 300px;height:400px;"
+                data-offset="400"
+              >
+                <div class="px-4 py-3">
+                  <h6>已選擇商品</h6>
+                  <table class="table">
+                    <tbody>
+                      <tr>
+                        <th scope="row">
+                          <!-- .data-titl 自訂義data-* 讓 modal JS 讀取資料 -->
+                          <a
+                            href="#delete"
+                            data-toggle="modal"
+                            data-title="金牌西裝1件"
+                          >
+                            <i class="far fa-trash-alt"></i>
+                          </a>
+                        </th>
+                        <td>特工西裝</td>
+                        <td>1件</td>
+                        <td>$888</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- btn-block 將按鈕寬度變成100% -->
+                  <router-link to="/">
+                    <button class="btn btn-warning btn-block">
+                      <i class="fas fa-shopping-bag"> 結帳去</i>
+                    </button>
+                  </router-link>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>

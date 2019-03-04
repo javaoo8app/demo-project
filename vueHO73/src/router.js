@@ -5,6 +5,8 @@ import VueRouter from "vue-router";
 //自訂元件
 import Login from "@/views/Login";
 import Home from "@/views/Home";
+import HomePage from "@/views/HomePages/HomePage";
+import Shop from "@/views/HomePages/Shop";
 import Dashboard from "@/views/Dashboard";
 import Products from "@/views/Dashboard/Products";
 import ProductList from "@/views/Dashboard/products/ProductList";
@@ -30,8 +32,20 @@ export default new VueRouter({
     },
     {
       path: "/",
-      name: "Home",
-      component: Home
+      // name: "Home",
+      component: Home,
+      children: [
+        {
+          path: "",
+          name: "HomePage",
+          component: HomePage
+        },
+        {
+          path: "shop",
+          name: "Shop",
+          component: Shop
+        }
+      ]
     },
     {
       path: "/admin",

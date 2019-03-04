@@ -106,7 +106,7 @@
                 class="btn btn-primary mr-1"
                 type="button"
               >
-                <i class="fas fa-user-edit fa-lg"></i>
+                <i class="fas fa-user-edit fa-2x"></i>
               </button>
             </router-link>
             <router-link
@@ -118,7 +118,7 @@
                 type="button"
                 @click.prevent="logout"
               >
-                <i class="fas fa-sign-out-alt fa-lg"></i>
+                <i class="fas fa-sign-out-alt fa-2x"></i>
               </button>
             </router-link>
           </form>

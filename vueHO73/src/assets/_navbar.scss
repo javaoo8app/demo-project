@@ -5,6 +5,7 @@
 $yellow: #fce38a;
 $pink: #f38181;
 $dark: #343a40;
+$red: #dc3545;
 $white: #fff;
 
 .navbar {
@@ -42,10 +43,39 @@ $white: #fff;
   }
   :hover,
   :focus {
+    background-color: transparent;
+    border-color: transparent;
     color: $yellow;
-    background-color: $pink;
-    border-color: $pink;
     outline: none !important;
     box-shadow: none !important;
+  }
+}
+
+#dropdown {
+  :hover,
+  :focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+  #btn-cart {
+    background-color: transparent;
+    border-color: transparent;
+    i {
+      color: $white;
+      &:hover {
+        color: $yellow !important;
+      }
+    }
+    position: relative;
+
+    .badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      &:hover {
+        background-color: $red;
+        color: $white;
+      }
+    }
   }
 }
