@@ -94,7 +94,7 @@
           </ul>
           <form class="form-inline my-2 my-l-0">
             <router-link
-              to="/login"
+              to="/admin/products/productList"
               id="ho73-nav-btn"
               class="nav-link"
             >
@@ -105,7 +105,7 @@
                 <i class="fas fa-user-alt fa-2x"></i>
               </button>
             </router-link>
-            <button
+            <!-- <button
               id="btn-cart"
               class="btn btn-primary mr-1"
               type="button"
@@ -115,7 +115,77 @@
                 class="badge badge-pill badge-danger"
                 v-if="!cartNum == 0"
               >{{ cartNum }}</span>
-            </button>
+            </button> -->
+            <div
+              class="dropdown"
+              id="dropdown"
+            >
+              <button
+                id="btn-cart"
+                class="btn btn-primary"
+                type="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i
+                  class="fas fa-shopping-cart fa-2x text-white"
+                  aria-hidden="true"
+                ></i>
+                <span
+                  class="badge badge-pill badge-danger"
+                  v-if="!cartNum == 0"
+                >{{ cartNum }}</span>
+              </button>
+              <div
+                class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right p-3"
+                aria-labelledby="CartDropdown"
+                style="min-width: 500px;overflow:scroll;height:400px;"
+                data-offset="400"
+              >
+                <div class="px-4 py-3">
+                  <h6>已選擇商品</h6>
+                  <table class="table">
+                    <tbody>
+                      <tr
+                        v-for="item in cart.carts"
+                        :key="item.id"
+                      >
+                        <td class="align-middle">
+                          <button
+                            type="button"
+                            class="btn btn-outline-danger btn-sm"
+                            @click.prevent="removeCartItem(item)"
+                          >
+                            <i class="fas fa-trash fa-lg"></i>
+                          </button>
+                        </td>
+                        <td class="align-middle">{{ item.product.title }}</td>
+                        <td
+                          class="align-middle"
+                          width="70"
+                        >{{ item.qty }}{{item.product.unit}}</td>
+                        <td
+                          v-if="!item.product.price"
+                          class="align-middle text-right"
+                          width="70"
+                        >$ {{ item.qty * item.product.origin_price }}</td>
+                        <td
+                          v-else
+                          class="align-middle text-right"
+                          width="70"
+                        >$ {{ item.qty * item.product.price }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <router-link to="/">
+                    <button class="btn btn-warning btn-block">
+                      <i class="fas fa-shopping-bag"> 結帳去</i>
+                    </button>
+                  </router-link>
+                </div>
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -148,9 +218,21 @@
         const vm = this;
         const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
         this.$http.get(api).then(response => {
-          console.log(response);
+          // console.log(response);
           vm.cart = response.data.data;
           vm.cartNum = vm.cart.carts.length;
+        });
+      },
+      removeCartItem(item) {
+        const vm = this;
+        const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${
+          item.id
+        }`;
+        this.$http.delete(api).then(response => {
+          console.log(response);
+          this.getCart();
+          let msg = response.data.message + ":" + item.product.title;
+          vm.$bus.$emit("message:push", msg, "info");
         });
       }
     },

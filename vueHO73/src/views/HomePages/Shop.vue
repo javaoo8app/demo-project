@@ -23,7 +23,7 @@
           </ol>
         </div>
         <div class="col-md-6 text-center">
-          <div class="pro-title h3">義賣商品</div>
+          <div class="pro-title font-weight-bold h3">義賣商品</div>
         </div>
         <div class="col-md-3">
           <div class="input-group mb-3">

@@ -50,28 +50,57 @@ $white: #fff;
     box-shadow: none !important;
   }
 }
-#btn-cart {
-  background-color: transparent;
-  border-color: transparent;
-  i {
-    color: $white;
-    &:hover {
-      color: $yellow;
-    }
-  }
-  &:focus {
+#dropdown {
+  :hover,
+  :focus {
     outline: none !important;
     box-shadow: none !important;
   }
-  position: relative;
-
-  .badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    &:hover {
-      background-color: $red;
+  #btn-cart {
+    background-color: transparent;
+    border-color: transparent;
+    i {
       color: $white;
+      &:hover {
+        color: $yellow !important;
+      }
+    }
+    position: relative;
+
+    .badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      &:hover {
+        background-color: $red;
+        color: $white;
+      }
     }
   }
 }
+
+// #btn-cart {
+//   background-color: transparent;
+//   border-color: transparent;
+//   i {
+//     color: $white;
+//     &:hover {
+//       color: $yellow;
+//     }
+//   }
+//   &:focus {
+//     outline: none !important;
+//     box-shadow: none !important;
+//   }
+//   position: relative;
+
+//   .badge {
+//     position: absolute;
+//     top: 0;
+//     right: 0;
+//     &:hover {
+//       background-color: $red;
+//       color: $white;
+//     }
+//   }
+// }
