@@ -13,10 +13,7 @@
       </loading>
       <div class="row">
         <div class="col-md-3">
-          <ol
-            class="breadcrumb"
-            style="background:none;"
-          >
+          <ol class="breadcrumb bg-transparent pl-0">
             <li class="breadcrumb-item">
               <router-link to="/">首頁</router-link>
             </li>
@@ -86,6 +83,7 @@
                   <div
                     class="point img-scale"
                     :style="{backgroundImage: `url(${item.imageUrl})`}"
+                    @click="goDetail(item.id)"
                   >
                   </div>
                 </div>
@@ -94,23 +92,26 @@
                   <h5 class="card-title">
                     <a
                       href="#"
-                      class="text-dark"
+                      class="text-dark font-weight-bold"
+                      @click.prevent="goDetail(item.id)"
                     >{{ item.title }}</a>
                   </h5>
                   <p class="card-text">{{ item.content}}</p>
-                  <div class="d-flex justify-content-between align-items-baseline">
-                    <div
-                      class="h5"
+                  <div class="d-flex justify-content-end align-items-end">
+                    <span
+                      class="h5 font-weight-bold mb-0"
                       v-if="!item.price"
-                    >{{ item.origin_price }} 元</div>
+                    >售價{{ item.origin_price }} 元</span>
                     <del
-                      class="h6"
+                      class="h6 mb-0"
                       v-if="item.price"
                     >原價 {{ item.origin_price }} 元</del>
                     <div
-                      class="h5"
                       v-if="item.price"
-                    >現在只要 {{ item.price }} 元</div>
+                      class="h5 ml-auto text-danger font-weight-bold mb-0"
+                    >
+                      <span>特價 {{ item.price }} 元</span>
+                    </div>
                   </div>
                 </div>
                 <div class="card-footer border-top-0 d-flex">
@@ -178,14 +179,15 @@
         };
         vm.isLoading = true;
         this.$http.post(url, { data: cart }).then(response => {
-          console.log(response);
+          // console.log(response);
+          vm.$bus.$emit("updateCart");
           let msg = item.title + response.data.message;
           vm.$bus.$emit("message:push", msg, "info");
           vm.isLoading = false;
         });
       },
       goDetail(id) {
-        this.$router.push(`/shop/detail/${id}`);
+        this.$router.push(`/detail/${id}`);
       },
       filterPro(category) {
         const vm = this;
@@ -264,5 +266,9 @@
   }
   .point {
     cursor: pointer;
+  }
+
+  a {
+    text-decoration: none;
   }
 </style>

@@ -116,67 +116,6 @@
                 v-if="!cartNum == 0"
               >{{ cartNum }}</span>
             </button>
-            <!-- <button
-              class="btn btn-primary mr-1"
-              type="button"
-              @click.prevent="logout"
-            >
-              <i class="mdi mdi-account-minus h4"></i>
-            </button> -->
-
-            <!-- 購物車下拉選單 -->
-            <!-- <div
-              class="dropdown"
-              id="dropdown"
-            >
-              <button
-                id="btn-cart"
-                class="btn btn-primary"
-                type="button"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i
-                  class="fas fa-shopping-cart fa-2x text-white"
-                  aria-hidden="true"
-                ></i>
-                <span class="badge badge-pill badge-danger">11</span>
-              </button>
-              <div
-                class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right p-3"
-                aria-labelledby="CartDropdown"
-                style="min-width: 300px;height:400px;"
-                data-offset="400"
-              >
-                <div class="px-4 py-3">
-                  <h6>已選擇商品</h6>
-                  <table class="table">
-                    <tbody>
-                      <tr>
-                        <th scope="row">
-                          <a
-                            href="#delete"
-                            data-toggle="modal"
-                            data-title="愛心餅乾"
-                          >
-                            <i class="far fa-trash-alt"></i>
-                          </a>
-                        </th>
-                        <td>愛心餅乾</td>
-                        <td>1包</td>
-                        <td>$99</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                  <router-link to="/">
-                    <button class="btn btn-warning btn-block">
-                      <i class="fas fa-shopping-bag"> 結帳去</i>
-                    </button>
-                  </router-link>
-                </div>
-              </div>
-            </div> -->
           </form>
         </div>
       </div>
@@ -217,6 +156,10 @@
     },
     created() {
       this.getCart();
+      const vm = this;
+      vm.$bus.$on("updateCart", () => {
+        vm.getCart();
+      });
     }
   };
 </script>

@@ -7,7 +7,7 @@
       <div class="container">
         <a
           class="navbar-brand"
-          href="#"
+          href="/"
         >
           <!-- 之後改成會員基金會名稱 -->
           <img

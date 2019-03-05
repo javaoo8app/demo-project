@@ -44,14 +44,12 @@ export default new VueRouter({
         {
           path: "shop",
           name: "Shop",
-          component: Shop,
-          children: [
-            {
-              path: "detail/:productId",
-              name: "Detail",
-              component: Detail
-            }
-          ]
+          component: Shop
+        },
+        {
+          path: "detail/:productId",
+          name: "Detail",
+          component: Detail
         }
       ]
     },
