@@ -178,7 +178,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <router-link to="/">
+                  <router-link to="/customer_order">
                     <button class="btn btn-warning btn-block">
                       <i class="fas fa-shopping-bag"> 結帳去</i>
                     </button>
@@ -229,9 +229,10 @@
           item.id
         }`;
         this.$http.delete(api).then(response => {
-          console.log(response);
+          // console.log(response);
           this.getCart();
           let msg = response.data.message + ":" + item.product.title;
+          vm.$bus.$emit("updateCart");
           vm.$bus.$emit("message:push", msg, "info");
         });
       }

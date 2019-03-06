@@ -1,0 +1,322 @@
+<template>
+  <div>
+    <section class="container mt-5">
+      <loading :active.sync="isLoading">
+        <div class="img-center">
+          <img
+            class="w-50"
+            style=""
+            src="@/assets/images/ho73Loading.gif"
+            alt=""
+          >
+        </div>
+      </loading>
+      <h1 class="text-secondary font-weight-bold text-center">Half of 73°C 結帳</h1>
+      <div class="form-row">
+        <div class="col-sm col-12">
+          <div
+            class="alert alert-info text-center alert-rounded"
+            role="alert"
+          >
+            1.輸入訂單資料
+          </div>
+        </div>
+        <div class="col-sm col-12">
+          <div
+            class="alert alert-secondary text-center alert-rounded"
+            role="alert"
+          >
+            2.金流付款
+          </div>
+        </div>
+        <div class="col-sm col-12">
+          <div
+            class="alert alert-secondary text-center alert-rounded"
+            role="alert"
+          >
+            3.完成
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-6 mb-3">
+          <div
+            class="accordion"
+            id="accordionExample"
+          >
+            <div class="card rounded">
+              <div
+                class="card-header text-center"
+                id="headingOne"
+              >
+                <button
+                  class="btn btn-link"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#collapseOne"
+                  aria-expanded="true"
+                  aria-controls="collapseOne"
+                >
+                  顯示購物車細節
+                  <i class="fas fa-chevron-down"></i>
+                </button>
+              </div>
+
+              <div
+                id="collapseOne"
+                class="collapse show"
+                aria-labelledby="headingOne"
+                data-parent="#accordionExample"
+              >
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col">商品名稱</th>
+                      <th scope="col">數量</th>
+                      <th
+                        scope="col"
+                        width="100"
+                      >小計</th>
+                    </tr>
+                    <tr
+                      v-for="item in cart.carts"
+                      :key="item.id"
+                    >
+                      <td class="align-middle text-right pl-3 pl-sm-0">
+                        <!-- <div class="ml-4"> -->
+                        <button
+                          type="button"
+                          class="btn btn-outline-danger btn-sm "
+                          @click="removeCartItem(item)"
+                        >
+                          <i class="fas fa-trash fa-lg"></i>
+                        </button>
+                        <!-- </div> -->
+                      </td>
+
+                      <td width="100">
+                        <img
+                          class="imgItem-center"
+                          :style="`background-image: url(${item.product.imageUrl});`"
+                        >
+                      </td>
+                      <td class="align-middle">{{ item.product.title }}</td>
+                      <td
+                        class="align-middle"
+                        width="70"
+                      >{{ item.qty }}{{item.product.unit}}</td>
+                      <td
+                        v-if="!item.product.price"
+                        class="align-middle text-right pr-5 pr-sm-4"
+                        width="70"
+                      >$ {{ item.qty * item.product.origin_price }}</td>
+                      <td
+                        v-else
+                        class="align-middle text-right pr-5 pr-sm-4"
+                        width="70"
+                      >$ {{ item.qty * item.product.price }}</td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td
+                        colspan="3"
+                        class=""
+                      >
+                        <div class="input-group mb-0 input-group-md">
+                          <input
+                            type="text"
+                            class="form-control"
+                            placeholder="請輸入優惠碼"
+                          >
+                          <div class="input-group-append">
+                            <button
+                              class="btn btn-info"
+                              type="button"
+                            >
+                              套用優惠碼
+                            </button>
+                          </div>
+                        </div>
+                      </td>
+                      <td class="align-middle text-right">折扣：</td>
+                      <td
+                        class="align-middle text-right pr-5 pr-sm-4"
+                        width="10"
+                      >$0</td>
+                    </tr>
+                    <tr>
+                      <td
+                        colspan="4"
+                        class="align-middle text-right"
+                      >合計：</td>
+                      <td
+                        class="align-middle text-right pr-5 pr-sm-4"
+                        width="10"
+                      >${{ cart.final_total }}</td>
+                      <!-- 此總數只適用於有優惠的價格，需再做計算，最好由後端更改，金錢較為敏感，預防別人篡改 -->
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <h5 class="text-center mb-3">訂購人資訊</h5>
+          <form
+            class="text-left needs-validation"
+            novalidate
+          >
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="name">姓名</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="name"
+                  placeholder="Name"
+                  required
+                >
+                <div class="invalid-feedback">
+                  請輸入姓名
+                </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="Email"
+                  required
+                >
+                <div class="invalid-feedback">
+                  請輸入Email
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="Address">電話</label>
+              <input
+                type="text"
+                class="form-control"
+                id="Address"
+                placeholder="Address"
+                required
+              >
+              <div class="invalid-feedback">
+                請輸入電話
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="Address">地址</label>
+              <input
+                type="text"
+                class="form-control"
+                id="Address"
+                placeholder="Address"
+                required
+              >
+              <div class="invalid-feedback">
+                請輸入地址
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="Message">留言</label>
+              <textarea
+                name=""
+                id="Message"
+                class="form-control"
+                cols="30"
+                rows="10"
+              ></textarea>
+            </div>
+            <div class="d-flex justify-content-end">
+              <router-link to="/shop">
+                <button class="btn btn-secondary mr-2">
+                  繼續選購
+                </button>
+              </router-link>
+              <button
+                class="btn btn-info mr-2"
+                type="submit"
+              >送出訂單</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: "CustomerOrder",
+    data() {
+      return {
+        cart: [],
+        isLoading: false
+      };
+    },
+    methods: {
+      getCart() {
+        const vm = this;
+        const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart`;
+        vm.isLoading = true;
+        this.$http.get(api).then(response => {
+          // console.log(response);
+          vm.cart = response.data.data;
+          vm.isLoading = false;
+        });
+      },
+      removeCartItem(item) {
+        const vm = this;
+        const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/cart/${
+          item.id
+        }`;
+        this.$http.delete(api).then(response => {
+          // console.log(response);
+          this.getCart();
+          let msg = response.data.message + ":" + item.product.title;
+          vm.$bus.$emit("updateCart");
+          vm.$bus.$emit("message:push", msg, "info");
+        });
+      }
+    },
+    created() {
+      this.getCart();
+      const vm = this;
+      vm.$bus.$on("updateCart", () => {
+        vm.getCart();
+      });
+    }
+  };
+</script>
+
+<style lang="scss" scoped>
+  .img-center {
+    text-align: center;
+    zoom: 0.8;
+  }
+  .alert-rounded {
+    border-radius: 50px;
+  }
+  #collapseOne {
+    border-bottom: 1px solid #dee2e6;
+  }
+  .imgItem-center {
+    background-size: cover;
+    background-position: center center;
+    width: 100px;
+    height: 100px;
+  }
+  .btn-link {
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+</style>
