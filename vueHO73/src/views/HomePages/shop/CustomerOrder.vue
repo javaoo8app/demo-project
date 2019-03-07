@@ -46,22 +46,26 @@
           >
             <div class="card rounded">
               <div
-                class="card-header text-center"
+                class="card-header mb-0"
                 id="headingOne"
               >
-                <button
-                  class="btn btn-link"
-                  type="button"
-                  data-toggle="collapse"
-                  data-target="#collapseOne"
-                  aria-expanded="true"
-                  aria-controls="collapseOne"
-                >
-                  顯示購物車細節
-                  <i class="fas fa-chevron-down"></i>
-                </button>
+                <div class="container">
+                  <div class="row justify-content-between">
+                    <button
+                      class="btn btn-link"
+                      type="button"
+                      data-toggle="collapse"
+                      data-target="#collapseOne"
+                      aria-expanded="true"
+                      aria-controls="collapseOne"
+                    >
+                      顯示購物車細節
+                      <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <span class="h3">${{ cart.final_total }}</span>
+                  </div>
+                </div>
               </div>
-
               <div
                 id="collapseOne"
                 class="collapse show"
