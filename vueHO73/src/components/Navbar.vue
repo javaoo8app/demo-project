@@ -132,12 +132,10 @@
                   class="fas fa-shopping-cart fa-2x text-white"
                   aria-hidden="true"
                 ></i>
-                <span
-                  class="badge badge-pill badge-danger"
-                  v-if="!cartNum == 0"
-                >{{ cartNum }}</span>
+                <span class="badge badge-pill badge-danger">{{ cartNum }}</span>
               </button>
               <div
+                v-show="!cartNum == 0"
                 class="dropdown-menu dropdown-menu-left dropdown-menu-lg-right p-3"
                 aria-labelledby="CartDropdown"
                 style="min-width: 500px;overflow:scroll;height:400px;"
@@ -169,12 +167,12 @@
                           v-if="!item.product.price"
                           class="align-middle text-right"
                           width="70"
-                        >$ {{ item.qty * item.product.origin_price }}</td>
+                        >{{ item.qty * item.product.origin_price | currency}}</td>
                         <td
                           v-else
                           class="align-middle text-right"
                           width="70"
-                        >$ {{ item.qty * item.product.price }}</td>
+                        >{{ item.qty * item.product.price | currency}}</td>
                       </tr>
                     </tbody>
                   </table>

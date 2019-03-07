@@ -62,8 +62,8 @@
             >
               <td>{{ item.category }}</td>
               <td>{{ item.title }}</td>
-              <td class="text-right">{{ item.origin_price }}</td>
-              <td class="text-right">{{ item.price }}</td>
+              <td class="text-right">{{ item.origin_price | currency }}</td>
+              <td class="text-right">{{ item.price | currency }}</td>
               <td>
                 <span
                   v-if="item.is_enabled"
@@ -525,15 +525,11 @@
 </script>
 
 <style lang="scss" scoped>
-  #ho73-btn {
-    color: #ffffff;
-  }
-
-  #ho73-btn :hover,
-  .close {
-    outline: none !important;
-    box-shadow: none !important;
-  }
+  // #ho73-btn :hover,
+  // .close {
+  //   outline: none !important;
+  //   box-shadow: none !important;
+  // }
 
   #ho73-del-btn a:hover {
     color: #fff !important;

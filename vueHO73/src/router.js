@@ -13,6 +13,7 @@ import Dashboard from "@/views/Dashboard";
 import Products from "@/views/Dashboard/Products";
 import ProductList from "@/views/Dashboard/products/ProductList";
 import OrderList from "@/views/Dashboard/products/OrderList";
+import Coupons from "@/views/Dashboard/products/Coupons";
 
 Vue.use(VueRouter);
 
@@ -82,12 +83,13 @@ export default new VueRouter({
               name: "OrderList",
               component: OrderList,
               meta: { requiresAuth: true }
+            },
+            {
+              path: "coupons",
+              name: "Coupons",
+              component: Coupons,
+              meta: { requiresAuth: true }
             }
-            // {
-            //   path: "coupons",
-            //   name: "Coupons",
-            //   component: Coupons
-            // }
           ]
         }
       ]

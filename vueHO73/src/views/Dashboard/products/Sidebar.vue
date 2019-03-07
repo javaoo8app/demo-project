@@ -31,7 +31,7 @@
           </li>
           <li class="nav-item">
             <router-link
-              to="/admin/coupons"
+              to="/admin/products/coupons"
               class="nav-link"
             >
               <i class="fas fa-ticket-alt"></i> 優惠券
@@ -45,8 +45,8 @@
 
 <style lang="scss" scoped>
   /*
-                           * Sidebar
-                           */
+                             * Sidebar
+                             */
   .sidebar {
     position: fixed;
     top: 0;

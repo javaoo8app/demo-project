@@ -49,16 +49,16 @@
             <span
               class="h5 font-weight-bold mb-0"
               v-if="!product.price"
-            >售價{{ product.origin_price }} 元</span>
+            >售價{{ product.origin_price | currency }} 元</span>
             <del
               class="h6 mb-0"
               v-if="product.price"
-            >原價 {{ product.origin_price }} 元</del>
+            >原價 {{ product.origin_price | currency }} 元</del>
             <div
               v-if="product.price"
               class="h5 ml-auto text-danger font-weight-bold mb-0"
             >
-              <span>特價 {{ product.price }} 元</span>
+              <span>特價 {{ product.price | currency }} 元</span>
             </div>
           </div>
           <select
@@ -77,11 +77,11 @@
             <span
               v-if="!product.price"
               class="pr-3 ml-1 h4"
-            >合計 {{ optionNum * product.origin_price }} 元</span>
+            >合計 {{ optionNum * product.origin_price | currency }} 元</span>
             <span
               v-else
               class="pr-3 ml-1 h4"
-            >合計 {{ optionNum * product.price }} 元</span>
+            >合計 {{ optionNum * product.price | currency }} 元</span>
             <button
               type="button"
               class="btn btn-warning"

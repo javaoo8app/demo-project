@@ -101,16 +101,16 @@
                     <span
                       class="h5 font-weight-bold mb-0"
                       v-if="!item.price"
-                    >售價{{ item.origin_price }} 元</span>
+                    >售價{{ item.origin_price | currency }} 元</span>
                     <del
                       class="h6 mb-0"
                       v-if="item.price"
-                    >原價 {{ item.origin_price }} 元</del>
+                    >原價 {{ item.origin_price | currency }} 元</del>
                     <div
                       v-if="item.price"
                       class="h5 ml-auto text-danger font-weight-bold mb-0"
                     >
-                      <span>特價 {{ item.price }} 元</span>
+                      <span>特價 {{ item.price | currency }} 元</span>
                     </div>
                   </div>
                 </div>

@@ -1,6 +1,16 @@
 <template>
   <div>
     <div class="container-fluid mt-4 main">
+      <loading :active.sync="isLoading">
+        <div class="img-center">
+          <img
+            class="w-50"
+            style=""
+            src="@/assets/images/ho73Loading.gif"
+            alt=""
+          >
+        </div>
+      </loading>
       <div class="row">
         <div class="col-lg-3 col-6 mb-4">
           <div class="card h-100">
@@ -47,7 +57,7 @@
           </div>
         </div>
       </div>
-      <section class="mt-3">
+      <section class="my-3">
         <div class="row">
           <div class="col-lg-12">
             <div class="card">
@@ -87,7 +97,7 @@
                             ></li>
                           </ul>
                         </td>
-                        <td> {{ item.total }} </td>
+                        <td class="text-right"> {{ item.total | currency}} </td>
                         <td>
                           <span
                             v-if="item.is_paid == 1"
@@ -157,7 +167,7 @@
                             <li>愛心餅乾:9包</li>
                           </ul>
                         </td>
-                        <td> $999 </td>
+                        <td class="text-right"> {{ 100 | currency}} </td>
                         <td>
                           <span>已付款</span>
                         </td>
@@ -222,17 +232,27 @@
           </div>
         </div>
       </section>
+      <!-- pagination -->
+      <Pagination
+        @changePage="getOrderList"
+        :propPage="pagination"
+      ></Pagination>
     </div>
   </div>
 </template>
 
 <script>
+  import Pagination from "@/components/Pagination";
   export default {
     name: "OrderList",
-    components: {},
+    components: {
+      Pagination
+    },
     data() {
       return {
-        orders: []
+        orders: [],
+        isLoading: false,
+        pagination: {}
       };
     },
     methods: {
@@ -241,9 +261,11 @@
         const url = `${process.env.APIPATH}/api/${
           process.env.CUSTOMPATH
         }/admin/orders?page=${page}`;
+        this.isLoading = true;
         this.$http.get(url).then(response => {
-          console.log(response);
+          // console.log(response);
           vm.orders = response.data.orders;
+          this.isLoading = false;
         });
       }
     },
@@ -252,3 +274,19 @@
     }
   };
 </script>
+
+<style lang="scss" scoped>
+  // #ho73-btn :hover,
+  // .close {
+  //   outline: none !important;
+  //   box-shadow: none !important;
+  // }
+  #ho73-del-btn a:hover {
+    color: #fff !important;
+    background: #f38181;
+  }
+  .img-center {
+    text-align: center;
+    zoom: 0.8;
+  }
+</style>

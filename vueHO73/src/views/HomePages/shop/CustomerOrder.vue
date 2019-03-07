@@ -62,7 +62,7 @@
                       顯示購物車細節
                       <i class="fas fa-chevron-down"></i>
                     </button>
-                    <span class="h3">${{ cart.final_total }}</span>
+                    <span class="h3">{{ cart.final_total | currency }}</span>
                   </div>
                 </div>
               </div>
@@ -106,7 +106,14 @@
                           :style="`background-image: url(${item.product.imageUrl});`"
                         >
                       </td>
-                      <td class="align-middle">{{ item.product.title }}</td>
+                      <td class="align-middle">{{ item.product.title }}
+                        <div
+                          v-if="item.coupon"
+                          class="text-info"
+                        >
+                          已套用優惠券
+                        </div>
+                      </td>
                       <td
                         class="align-middle"
                         width="70"
@@ -115,12 +122,12 @@
                         v-if="!item.product.price"
                         class="align-middle text-right pr-5 pr-sm-4"
                         width="70"
-                      >$ {{ item.qty * item.product.origin_price }}</td>
+                      >{{ item.qty * item.product.origin_price | currency }}</td>
                       <td
                         v-else
                         class="align-middle text-right pr-5 pr-sm-4"
                         width="70"
-                      >$ {{ item.qty * item.product.price }}</td>
+                      >{{ item.qty * item.product.price | currency }}</td>
                     </tr>
                   </tbody>
                   <tfoot>
@@ -134,32 +141,36 @@
                             type="text"
                             class="form-control"
                             placeholder="請輸入優惠碼"
+                            v-model="coupon_code"
+                            @keyup.enter="addCouponCode"
                           >
                           <div class="input-group-append">
                             <button
                               class="btn btn-info"
                               type="button"
+                              @click="addCouponCode"
                             >
                               套用優惠碼
                             </button>
                           </div>
                         </div>
+                        <p class="text-danger">{{ findCoupon }}</p>
                       </td>
-                      <td class="align-middle text-right">折扣：</td>
+                      <td class="align-middle text-right">總計：</td>
                       <td
                         class="align-middle text-right pr-5 pr-sm-4"
                         width="10"
-                      >$0</td>
+                      >${{ cart.total }}</td>
                     </tr>
-                    <tr>
+                    <tr v-if="cart.total !== cart.final_total">
                       <td
                         colspan="4"
-                        class="align-middle text-right"
-                      >合計：</td>
+                        class="align-middle text-right text-info"
+                      >折扣價：</td>
                       <td
-                        class="align-middle text-right pr-5 pr-sm-4"
+                        class="align-middle text-right text-info pr-5 pr-sm-4"
                         width="10"
-                      >${{ cart.final_total }}</td>
+                      >{{ cart.final_total | currency }}</td>
                       <!-- 此總數只適用於有優惠的價格，需再做計算，最好由後端更改，金錢較為敏感，預防別人篡改 -->
                     </tr>
                   </tfoot>
@@ -207,8 +218,8 @@
               <input
                 type="text"
                 class="form-control"
-                id="Address"
-                placeholder="Address"
+                id="Phone"
+                placeholder="Phone"
                 required
               >
               <div class="invalid-feedback">
@@ -262,7 +273,9 @@
     data() {
       return {
         cart: [],
-        isLoading: false
+        isLoading: false,
+        coupon_code: "",
+        findCoupon: ""
       };
     },
     methods: {
@@ -287,6 +300,23 @@
           let msg = response.data.message + ":" + item.product.title;
           vm.$bus.$emit("updateCart");
           vm.$bus.$emit("message:push", msg, "info");
+        });
+      },
+      addCouponCode() {
+        const vm = this;
+        const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/coupon`;
+        const coupon = {
+          code: vm.coupon_code
+        };
+        this.$http.post(api, { data: coupon }).then(response => {
+          console.log(response);
+          this.getCart();
+          if (!response.data.success) {
+            vm.findCoupon = response.data.message;
+            vm.coupon_code = "";
+          } else {
+            vm.findCoupon = "";
+          }
         });
       }
     },

@@ -10,9 +10,11 @@ import router from "./router";
 
 import "bootstrap";
 import "./bus";
+import currencyFilter from "./filters/currency";
 
 Vue.use(VueAxios, axios);
 Vue.component("Loading", Loading);
+Vue.filter("currency", currencyFilter);
 axios.defaults.withCredentials = true;
 
 Vue.config.productionTip = false;
