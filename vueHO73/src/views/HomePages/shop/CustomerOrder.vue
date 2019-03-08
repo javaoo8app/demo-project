@@ -182,71 +182,64 @@
         <div class="col-md-6 mb-3">
           <h5 class="text-center mb-3">訂購人資訊</h5>
           <form
-            class="text-left needs-validation"
-            novalidate
+            class="text-left"
+            @submit.prevent="createOrder"
           >
             <div class="form-row">
               <div class="form-group col-md-6">
-                <label for="name">姓名</label>
+                <label for="userName">收件人姓名</label>
                 <input
-                  type="email"
+                  type="text"
                   class="form-control"
-                  id="name"
-                  placeholder="Name"
-                  required
+                  name="name"
+                  id="userName"
+                  v-model="form.user.name"
+                  placeholder="輸入姓名"
                 >
-                <div class="invalid-feedback">
-                  請輸入姓名
-                </div>
               </div>
               <div class="form-group col-md-6">
-                <label for="email">Email</label>
+                <label for="userEmail">Email</label>
                 <input
                   type="email"
                   class="form-control"
-                  id="email"
-                  placeholder="Email"
-                  required
+                  name="email"
+                  id="userEmail"
+                  v-model="form.user.email"
+                  placeholder="請輸入 Email"
                 >
-                <div class="invalid-feedback">
-                  請輸入Email
-                </div>
               </div>
             </div>
             <div class="form-group">
-              <label for="Address">電話</label>
+              <label for="userTel">收件人電話</label>
               <input
-                type="text"
+                type="tel"
                 class="form-control"
-                id="Phone"
-                placeholder="Phone"
-                required
+                id="userTel"
+                name="tel"
+                v-model="form.user.tel"
+                placeholder="請輸入電話"
               >
-              <div class="invalid-feedback">
-                請輸入電話
-              </div>
             </div>
             <div class="form-group">
-              <label for="Address">地址</label>
+              <label for="userAddress">收件人地址</label>
               <input
-                type="text"
+                type="address"
                 class="form-control"
-                id="Address"
-                placeholder="Address"
-                required
+                name="address"
+                id="userAddress"
+                v-model="form.user.address"
+                placeholder="請輸入地址"
               >
-              <div class="invalid-feedback">
-                請輸入地址
-              </div>
             </div>
             <div class="form-group">
-              <label for="Message">留言</label>
+              <label for="userMessage">留言</label>
               <textarea
-                name=""
-                id="Message"
+                name="message"
+                id="userMessage"
                 class="form-control"
                 cols="30"
                 rows="10"
+                v-model="form.message"
               ></textarea>
             </div>
             <div class="d-flex justify-content-end">
@@ -255,10 +248,7 @@
                   繼續選購
                 </button>
               </router-link>
-              <button
-                class="btn btn-info mr-2"
-                type="submit"
-              >送出訂單</button>
+              <button class="btn btn-info mr-2">送出訂單</button>
             </div>
           </form>
         </div>
@@ -275,7 +265,16 @@
         cart: [],
         isLoading: false,
         coupon_code: "",
-        findCoupon: ""
+        findCoupon: "",
+        form: {
+          user: {
+            name: "",
+            email: "",
+            tel: "",
+            address: ""
+          },
+          // message: ""
+        }
       };
     },
     methods: {
@@ -317,6 +316,16 @@
           } else {
             vm.findCoupon = "";
           }
+        });
+      },
+      createOrder() {
+        const vm = this;
+        const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`;
+        const order = vm.form;
+        vm.isLoading = true;
+        this.$http.post(api, { data: order }).then(response => {
+          console.log("訂單已建立", response);
+          vm.isLoading = false;
         });
       }
     },

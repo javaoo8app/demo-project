@@ -79,22 +79,21 @@
                     </thead>
                     <tbody>
                       <tr
-                        v-for="item in orders"
+                        v-for="(item) in orders"
                         :key="item.id"
                       >
-                        <td>{{ item.create_at }}</td>
+                        <td>{{ item.create_at | date }}</td>
                         <td>{{ item.user.email }}</td>
                         <td>
-                          <ul>
+                          <ul class="pl-0">
                             <li
-                              v-for="product in item.products"
-                              :key="product.id"
-                              {{product.product.title}}
-                              數量
+                              v-for="i in item.products"
+                              :key="i.id"
+                            >{{i.product.title}}
+                              <br> 數量
                               ：
-                              {{product.qty}}
-                              {{product.product.unit}}
-                            ></li>
+                              {{i.qty}}
+                              {{i.product.unit}}</li>
                           </ul>
                         </td>
                         <td class="text-right"> {{ item.total | currency}} </td>
@@ -104,72 +103,6 @@
                             class="text-success"
                           >已付款</span>
                           <span v-else>尚未付款</span>
-                        </td>
-                        <td>
-                          <div
-                            class="btn-group btn-group-sm"
-                            role="group"
-                            aria-label="Button group with nested dropdown"
-                          >
-                            <button
-                              type="button"
-                              class="btn btn-outline-secondary"
-                              data-backdrop="static"
-                            >留言</button>
-                            <button
-                              type="button"
-                              class="btn btn-outline-secondary"
-                            >出貨</button>
-                            <div
-                              class="btn-group btn-group-sm"
-                              role="group"
-                            >
-                              <button
-                                id="btnGroupDrop1"
-                                type="button"
-                                class="btn btn-outline-secondary dropdown-toggle"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
-                              >
-                                其他
-                              </button>
-                              <div class="dropdown-menu">
-                                <a
-                                  class="dropdown-item"
-                                  href="#"
-                                >加入 好人客</a>
-                                <a
-                                  class="dropdown-item"
-                                  href="#"
-                                >加入 黑名單</a>
-                                <div class="dropdown-divider"></div>
-                                <div id="ho73-del-btn">
-                                  <a
-                                    class="dropdown-item text-danger"
-                                    href="#"
-                                    data-toggle="modal"
-                                    data-target="#removeModal"
-                                    data-title=""
-                                  >刪除</a>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>2019/3/7</td>
-                        <td>ggyy@gmail.com</td>
-                        <td>
-                          <ul class="pl-0">
-                            <li>愛心糖糖:9包</li>
-                            <li>愛心餅乾:9包</li>
-                          </ul>
-                        </td>
-                        <td class="text-right"> {{ 100 | currency}} </td>
-                        <td>
-                          <span>已付款</span>
                         </td>
                         <td>
                           <div
@@ -263,8 +196,9 @@
         }/admin/orders?page=${page}`;
         this.isLoading = true;
         this.$http.get(url).then(response => {
-          // console.log(response);
+          console.log(response);
           vm.orders = response.data.orders;
+          vm.pagination = response.data.pagination;
           this.isLoading = false;
         });
       }
