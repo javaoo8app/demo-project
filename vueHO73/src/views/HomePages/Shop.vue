@@ -11,6 +11,7 @@
           >
         </div>
       </loading>
+      <ShoppingCart class="d-lg-none" />
       <div class="row">
         <div class="col-md-3">
           <ol class="breadcrumb bg-transparent pl-0">
@@ -54,7 +55,7 @@
         <div class="col-md-2">
           <div class="list-group">
             <a
-              class="list-group-item list-group-item-action"
+              class="list-group-item list-group-item-action active"
               data-toggle="list"
               href="#"
               @click.prevent="filterPro('')"
@@ -145,9 +146,13 @@
 
 <script>
   import $ from "jquery";
+  import ShoppingCart from "@/components/ShoppingCart.vue";
 
   export default {
     name: "Shop",
+    components: {
+      ShoppingCart
+    },
     data() {
       return {
         products: [],

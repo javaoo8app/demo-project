@@ -92,7 +92,10 @@
               </router-link>
             </li>
           </ul>
-          <form class="form-inline my-2 my-l-0">
+          <form
+            class="form-inline my-2 my-l-0"
+            id="navbar-right"
+          >
             <router-link
               to="/admin/products/productList"
               id="ho73-nav-btn"
