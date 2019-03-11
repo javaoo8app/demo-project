@@ -4,7 +4,9 @@ import Vue from "vue";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import Loading from "vue-loading-overlay";
+import VeeValidate, { Validator } from "vee-validate";
 import "vue-loading-overlay/dist/vue-loading.css";
+import zhTWValidate from "vee-validate/dist/locale/zh_TW";
 import App from "./App";
 import router from "./router";
 
@@ -15,6 +17,14 @@ import dateFilter from "./filters/date";
 import "./bus";
 
 Vue.use(VueAxios, axios);
+Vue.use(
+  VeeValidate,
+  {
+    events: "input|blur"
+  },
+  { locale: "zh_TW" }
+);
+Validator.localize("zh_TW", zhTWValidate);
 Vue.component("Loading", Loading);
 Vue.filter("currency", currencyFilter);
 Vue.filter("date", dateFilter);

@@ -11,7 +11,7 @@
           >
         </div>
       </loading>
-      <h1 class="text-secondary font-weight-bold text-center">Half of 73°C 結帳</h1>
+      <h1 class="text-secondary font-weight-bold text-center mb-5">Half of 73°C 結帳</h1>
       <div class="form-row">
         <div class="col-sm col-12">
           <div
@@ -194,8 +194,14 @@
                   name="name"
                   id="userName"
                   v-model="form.user.name"
+                  v-validate="'required'"
                   placeholder="輸入姓名"
+                  :class="{'is-invalid': errors.has('name')}"
                 >
+                <span
+                  v-if="errors.has('name')"
+                  class="text-danger"
+                >姓名必須輸入</span>
               </div>
               <div class="form-group col-md-6">
                 <label for="userEmail">Email</label>
@@ -205,20 +211,32 @@
                   name="email"
                   id="userEmail"
                   v-model="form.user.email"
+                  v-validate="'required|email'"
                   placeholder="請輸入 Email"
+                  :class="{'is-invalid': errors.has('email')}"
                 >
+                <span
+                  v-if="errors.has('email')"
+                  class="text-danger"
+                >{{ errors.first('email')}}</span>
               </div>
             </div>
             <div class="form-group">
               <label for="userTel">收件人電話</label>
               <input
-                type="tel"
+                type="regex"
                 class="form-control"
                 id="userTel"
-                name="tel"
+                name="regex"
                 v-model="form.user.tel"
+                v-validate="{ required: true, regex:/^\(?\d{2}\)?[\s\-]?\d{4}\-?\d{4}$/ }"
                 placeholder="請輸入電話"
+                :class="{'is-invalid': errors.has('regex')}"
               >
+              <span
+                v-if="errors.has('regex')"
+                class="text-danger"
+              >請輸入10碼數字之電話號碼</span>
             </div>
             <div class="form-group">
               <label for="userAddress">收件人地址</label>
@@ -228,8 +246,14 @@
                 name="address"
                 id="userAddress"
                 v-model="form.user.address"
+                v-validate="'required'"
                 placeholder="請輸入地址"
+                :class="{'is-invalid': errors.has('address')}"
               >
+              <span
+                v-if="errors.has('address')"
+                class="text-danger"
+              >地址必須輸入</span>
             </div>
             <div class="form-group">
               <label for="userMessage">留言</label>
@@ -273,7 +297,7 @@
             tel: "",
             address: ""
           },
-          // message: ""
+          message: ""
         }
       };
     },
@@ -323,9 +347,19 @@
         const api = `${process.env.APIPATH}/api/${process.env.CUSTOMPATH}/order`;
         const order = vm.form;
         vm.isLoading = true;
-        this.$http.post(api, { data: order }).then(response => {
-          console.log("訂單已建立", response);
-          vm.isLoading = false;
+        this.$validator.validate().then(result => {
+          if (result) {
+            this.$http.post(api, { data: order }).then(response => {
+              console.log("訂單已建立", response);
+              if (response.data.success) {
+                vm.$router.push(`/customer_checkout/${response.data.orderId}`);
+              }
+              vm.isLoading = false;
+            });
+          } else {
+            vm.isLoading = false;
+            console.log("欄位不完整");
+          }
         });
       }
     },
