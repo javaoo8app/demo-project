@@ -13,7 +13,7 @@
       </loading>
       <ShoppingCart class="d-lg-none" />
       <div class="row">
-        <div class="col-md-3">
+        <div class="d-none d-md-block col-md-3">
           <ol class="breadcrumb bg-transparent pl-0">
             <li class="breadcrumb-item">
               <router-link to="/">首頁</router-link>
@@ -51,14 +51,37 @@
           </div>
         </div>
       </div>
+      <!-- 行動版選單 -->
+      <div class="container">
+        <div class="row">
+          <select
+            id="searchBar"
+            class="d-lg-none my-3 col-sm-12"
+            v-model="searchText"
+            @change="onChange"
+          >
+            <option
+              value=""
+              selected
+            >全部商品</option>
+            <option
+              v-for="category in categories"
+              :key="category"
+              :value="category"
+            >{{category}}</option>
+          </select>
+        </div>
+      </div>
       <div class="row mt-4">
-        <div class="col-md-2">
+        <!-- 左側選單 -->
+        <div class="d-none d-lg-block col-md-2">
           <div class="list-group">
             <a
-              class="list-group-item list-group-item-action active"
+              class="list-group-item list-group-item-action"
               data-toggle="list"
               href="#"
-              @click.prevent="filterPro('')"
+              @click.prevent="searchText = '', filterSearch = ''"
+              :class="{ 'active' : (searchText === '' && filterSearch === '')}"
             >全部商品</a>
             <a
               class="list-group-item list-group-item-action"
@@ -66,13 +89,85 @@
               href="#"
               v-for="category in categories"
               :key="category"
-              :value="category"
-              @click.prevent="filterPro(category)"
+              @click.prevent="searchText = category, filterSearch = ''"
+              :class="{ 'active' : (searchText === category  && filterSearch === '')}"
             >{{category}}</a>
           </div>
         </div>
-        <!-- 右邊 "列表內容" 部分  -->
-        <div class="col-md-10">
+        <!-- 右邊 "列表內容" 部分 供左側選擇使用  -->
+        <div
+          v-if="filterSearch === ''"
+          class="col-lg-10"
+        >
+          <div class="row">
+            <div
+              class="col-md-4 mb-4"
+              v-for="item in filterData"
+              :key="item.id"
+            >
+              <div class="card border-0 box-shadow h-100">
+                <div class="img-container">
+                  <div
+                    class="point img-scale"
+                    :style="{backgroundImage: `url(${item.imageUrl})`}"
+                    @click="goDetail(item.id)"
+                  >
+                  </div>
+                </div>
+                <div class="card-body">
+                  <span class="badge badge-secondary float-right ml-2">{{ item.category }}</span>
+                  <h5 class="card-title">
+                    <a
+                      href="#"
+                      class="text-dark font-weight-bold"
+                      @click.prevent="goDetail(item.id)"
+                    >{{ item.title }}</a>
+                  </h5>
+                  <p class="card-text">{{ item.content}}</p>
+                  <div class="d-flex justify-content-end align-items-end">
+                    <span
+                      class="h5 font-weight-bold mb-0"
+                      v-if="!item.price"
+                    >售價{{ item.origin_price | currency }} 元</span>
+                    <del
+                      class="h6 mb-0 d-sm-none d-lg-flex"
+                      v-if="item.price"
+                    >原價 {{ item.origin_price | currency }} 元</del>
+                    <div
+                      v-if="item.price"
+                      class="h5 ml-auto text-danger font-weight-bold mb-0"
+                    >
+                      <span>特價 {{ item.price | currency }} 元</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer border-top-0 d-flex">
+                  <button
+                    id="ho73-btn"
+                    type="button"
+                    class="btn btn-primary btn-md"
+                    @click="goDetail(item.id)"
+                  >
+                    查看更多
+                  </button>
+                  <button
+                    id="ho73-btn"
+                    type="button"
+                    class="btn btn-info btn-md ml-auto"
+                    @click="addtoCart(item)"
+                  >
+                    加到購物車
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 右邊 "列表內容" 部分 供搜尋使用  -->
+        <div
+          v-else
+          class="col-lg-10"
+        >
           <div class="row">
             <div
               class="col-md-4 mb-4"
@@ -104,7 +199,7 @@
                       v-if="!item.price"
                     >售價{{ item.origin_price | currency }} 元</span>
                     <del
-                      class="h6 mb-0"
+                      class="h6 mb-0 d-sm-none d-lg-flex"
                       v-if="item.price"
                     >原價 {{ item.origin_price | currency }} 元</del>
                     <div
@@ -122,7 +217,6 @@
                     class="btn btn-primary btn-md"
                     @click="goDetail(item.id)"
                   >
-                    <!-- <i class="fas fa-spinner fa-spin"></i> -->
                     查看更多
                   </button>
                   <button
@@ -131,7 +225,6 @@
                     class="btn btn-info btn-md ml-auto"
                     @click="addtoCart(item)"
                   >
-                    <!-- <i class="fas fa-spinner fa-spin"></i> -->
                     加到購物車
                   </button>
                 </div>
@@ -158,7 +251,8 @@
         products: [],
         filterProducts: [],
         filterSearch: "",
-        isLoading: false
+        isLoading: false,
+        searchText: ""
       };
     },
     methods: {
@@ -194,16 +288,6 @@
       goDetail(id) {
         this.$router.push(`/detail/${id}`);
       },
-      filterPro(category) {
-        const vm = this;
-        if (category == "") {
-          vm.filterProducts = vm.products;
-        } else {
-          vm.filterProducts = vm.products.filter(product => {
-            return product.category == category;
-          });
-        }
-      },
       filterTitle() {
         const vm = this;
         vm.filterProducts = vm.products.filter(product => {
@@ -211,6 +295,9 @@
             .toLowerCase()
             .includes(vm.filterSearch.toLowerCase());
         });
+      },
+      onChange() {
+        const vm = this;
         vm.filterSearch = "";
       }
     },
@@ -225,7 +312,30 @@
             return Obj;
           }, {})
         );
+      },
+      //左側選單以及行動版select選單filter
+      filterData() {
+        const vm = this;
+        if (vm.searchText) {
+          return vm.products.filter(product => {
+            return product.category
+              .toLowerCase()
+              .includes(vm.searchText.toLowerCase());
+          });
+        } else {
+          return vm.products;
+        }
       }
+      // 因為行動版select的onChange事件會造成清空搜尋欄，所以用點擊事件去搜尋。
+      // filterTitle() {
+      //   const vm = this;
+      //   return vm.products.filter(product => {
+      //     return product.title
+      //       .toLowerCase()
+      //       .includes(vm.filterSearch.toLowerCase());
+      //   });
+      //   vm.filterSearch = "";
+      // }
     },
     created() {
       this.getProducts();
