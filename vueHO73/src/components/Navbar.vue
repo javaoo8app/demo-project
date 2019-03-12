@@ -86,7 +86,7 @@
             <li class="nav-item">
               <router-link
                 class="nav-link"
-                to=""
+                to="/about_us"
               >
                 關於本站
               </router-link>

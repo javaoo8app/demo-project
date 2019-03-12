@@ -8,6 +8,7 @@ import Home from "@/views/Home";
 import HomePage from "@/views/HomePages/HomePage";
 import Shop from "@/views/HomePages/Shop";
 import Detail from "@/views/HomePages/shop/Detail";
+import AboutUs from "@/views/HomePages/aboutUs/AboutUs";
 import CustomerOrder from "@/views/HomePages/shop/CustomerOrder";
 import CustomerCheckout from "@/views/HomePages/shop/CustomerCheckout";
 import Dashboard from "@/views/Dashboard";
@@ -63,6 +64,11 @@ export default new VueRouter({
           path: "customer_checkout/:orderId",
           name: "CustomerCheckout",
           component: CustomerCheckout
+        },
+        {
+          path: "about_us",
+          name: "AboutUs",
+          component: AboutUs
         }
       ]
     },
