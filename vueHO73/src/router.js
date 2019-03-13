@@ -8,7 +8,6 @@ import Home from "@/views/Home";
 import HomePage from "@/views/HomePages/HomePage";
 import Shop from "@/views/HomePages/Shop";
 import Detail from "@/views/HomePages/shop/Detail";
-import AboutUs from "@/views/HomePages/aboutUs/AboutUs";
 import CustomerOrder from "@/views/HomePages/shop/CustomerOrder";
 import CustomerCheckout from "@/views/HomePages/shop/CustomerCheckout";
 import Dashboard from "@/views/Dashboard";
@@ -64,11 +63,6 @@ export default new VueRouter({
           path: "customer_checkout/:orderId",
           name: "CustomerCheckout",
           component: CustomerCheckout
-        },
-        {
-          path: "about_us",
-          name: "AboutUs",
-          component: AboutUs
         }
       ]
     },
@@ -106,5 +100,23 @@ export default new VueRouter({
         }
       ]
     }
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      // savedPosition is only available for popstate navigations.
+      return savedPosition;
+    } else if (to.hash) {
+      const position = {};
+      position.selector = to.hash;
+      if (document.querySelector(to.hash)) {
+        position.offset = { y: 100 };
+        return position;
+      }
+      // if the returned position is falsy or an empty object,
+      // will retain current scroll position.
+      return false;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  }
 });

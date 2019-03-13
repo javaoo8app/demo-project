@@ -9,7 +9,6 @@
           class="navbar-brand"
           href="/"
         >
-          <!-- 之後改成會員基金會名稱 -->
           <img
             src="../assets/images/ico/Ho73-logo.png"
             height="40"

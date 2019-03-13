@@ -31,13 +31,21 @@
           id="navbarNavDropdown"
         >
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li
+              class="nav-item"
+              :class="{'active':link=='news'}"
+              @click.prevent="link = 'news'"
+            >
               <router-link
                 class="nav-link"
                 to=""
               >最新消息</router-link>
             </li>
-            <li class="nav-item">
+            <li
+              class="nav-item"
+              :class="{'active':link=='foundation'}"
+              @click.prevent="link = 'foundation'"
+            >
               <router-link
                 class="nav-link"
                 to=""
@@ -45,7 +53,11 @@
                 基金會
               </router-link>
             </li>
-            <li class="nav-item dropdown">
+            <li
+              class="nav-item dropdown"
+              :class="{'active':link=='a'}"
+              @click.prevent="link = 'a'"
+            >
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
@@ -53,17 +65,19 @@
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 aria-expanded="false"
+                @click.prevent="link = 'a'"
               >
                 愛心捐募
               </a>
               <div
+                v-show="link == 'a'"
                 class="dropdown-menu bg-dark"
                 id="ho73-dropdown"
                 aria-labelledby="navbarDropdownMenuLink"
               >
                 <router-link
                   class="dropdown-item nav-link pl-2"
-                  to=""
+                  to="/shop"
                 >捐款</router-link>
                 <router-link
                   class="dropdown-item nav-link pl-2"
@@ -75,7 +89,11 @@
                 >志工服務</router-link>
               </div>
             </li>
-            <li class="nav-item">
+            <li
+              class="nav-item"
+              :class="{'active':link=='shop'}"
+              @click.prevent="link = 'shop'"
+            >
               <router-link
                 class="nav-link"
                 to="/shop"
@@ -83,10 +101,14 @@
                 義賣商品
               </router-link>
             </li>
-            <li class="nav-item">
+            <li
+              class="nav-item"
+              :class="{'active':link=='aboutUs'}"
+              @click.prevent="link = 'aboutUs'"
+            >
               <router-link
                 class="nav-link"
-                to="/about_us"
+                to="/home#aboutUs"
               >
                 關於本站
               </router-link>
@@ -201,6 +223,7 @@
     name: "Navbar",
     data() {
       return {
+        link: "",
         cart: [],
         cartNum: 0
       };
@@ -236,7 +259,8 @@
           vm.$bus.$emit("updateCart");
           vm.$bus.$emit("message:push", msg, "info");
         });
-      }
+      },
+      test() {}
     },
     created() {
       this.getCart();

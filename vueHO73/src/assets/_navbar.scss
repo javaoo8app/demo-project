@@ -106,6 +106,9 @@ $white: #fff;
 // }
 
 #navbar-right {
+  .active {
+    color: $yellow;
+  }
   @include pad() {
     display: none;
   }
