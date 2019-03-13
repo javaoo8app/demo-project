@@ -42,7 +42,8 @@
           <div class="bg-gradient">
             <div class="carousel-caption d-none d-md-block px-3">
               <h2>Sharing Love</h2>
-              <p>愛的溫度，是我能為你做的事情。點亮盼望，傳遞愛。</p>
+              <p class="myFont my-3">愛的溫度，是我能為你做的事情</p>
+              <p class="myFont">點亮盼望，傳遞愛</p>
             </div>
           </div>
         </div>
@@ -53,7 +54,8 @@
           <div class="bg-gradient">
             <div class="carousel-caption d-none d-md-block px-3">
               <h2>Be Together</h2>
-              <p>別讓他們的無助，成為彼此的遺憾。你的微光，將是我們的希望。</p>
+              <p class="myFont my-3">別讓他們的無助，成為彼此的遺憾</p>
+              <p class="myFont">你的微光，將是我們的希望</p>
             </div>
           </div>
         </div>

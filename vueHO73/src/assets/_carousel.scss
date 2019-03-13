@@ -1,5 +1,18 @@
 @import "helpers/grid";
 
+@font-face {
+  font-family: ho73Font;
+  src: url(./font/ho73.eot); /* IE9 Compat Modes */
+  src: url(./font/ho73.eot?#iefix) format("embedded-opentype"),
+    /* IE6-IE8 */ url(./font/ho73.woff) format("woff"),
+    /* Modern Browsers */ url(./font/ho73.ttf) format("truetype"),
+    /* Safari, Android, iOS */ url(./font/ho73.svg#ho73Font) format("svg"); /* Legacy iOS */
+}
+
+.myFont {
+  font-family: "ho73Font";
+}
+
 .header-carousel-item {
   height: 500px;
 }
