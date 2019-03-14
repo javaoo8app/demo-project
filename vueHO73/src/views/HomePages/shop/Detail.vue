@@ -11,6 +11,7 @@
           >
         </div>
       </loading>
+      <ShoppingCart class="d-lg-none" />
       <div class="row">
         <div class="col-md-8">
           <ol class="breadcrumb bg-transparent pl-0 mt-2">
@@ -29,64 +30,66 @@
         </div> -->
       </div>
 
-      <div class="row">
-        <div class="col-md-7 mb-4">
-          <img
-            :src="product.imageUrl"
-            class="img-fluid rounded"
-            alt="img"
-          >
-        </div>
-        <div class="col-md-5 bg-blue text-white pt-5">
-          <span class="badge badge-warning float-right ">
-            <div class="h5 mb-1">{{ product.category }}</div>
-          </span>
-          <span class="h3 font-weight-bold">{{ product.title }}
-          </span>
-          <h5 class="my-4 lh">{{product.content}}</h5>
-          <p class="text-right">--{{product.description}}</p>
-          <div class="d-flex justify-content-end align-items-end mb-3">
-            <span
-              class="h5 font-weight-bold mb-0"
-              v-if="!product.price"
-            >售價{{ product.origin_price | currency }} 元</span>
-            <del
-              class="h6 mb-0"
-              v-if="product.price"
-            >原價 {{ product.origin_price | currency }} 元</del>
-            <div
-              v-if="product.price"
-              class="h5 ml-auto text-danger font-weight-bold mb-0"
+      <div class="container">
+        <div class="row pushFooter">
+          <div class="col-md-7 mb-4">
+            <img
+              :src="product.imageUrl"
+              class="img-fluid rounded"
+              alt="img"
             >
-              <span>特價 {{ product.price | currency }} 元</span>
-            </div>
           </div>
-          <select
-            class="form-control"
-            v-model="optionNum"
-          >
-            <option
-              :value="num"
-              v-for="num in 10"
-              :key="num"
+          <div class="col-md-5 bg-blue text-white pt-5">
+            <span class="badge badge-warning float-right ">
+              <div class="h5 mb-1">{{ product.category }}</div>
+            </span>
+            <span class="h3 font-weight-bold">{{ product.title }}
+            </span>
+            <h5 class="my-4 lh">{{product.content}}</h5>
+            <p class="text-right">--{{product.description}}</p>
+            <div class="d-flex justify-content-end align-items-end mb-3">
+              <span
+                class="h5 font-weight-bold mb-0"
+                v-if="!product.price"
+              >售價{{ product.origin_price | currency }} 元</span>
+              <del
+                class="h6 mb-0"
+                v-if="product.price"
+              >原價 {{ product.origin_price | currency }} 元</del>
+              <div
+                v-if="product.price"
+                class="h5 ml-auto text-danger font-weight-bold mb-0"
+              >
+                <span>特價 {{ product.price | currency }} 元</span>
+              </div>
+            </div>
+            <select
+              class="form-control"
+              v-model="optionNum"
             >
-              選購 {{num}} {{product.unit}}
-            </option>
-          </select>
-          <div class="my-5 d-flex justify-content-between align-items-baseline">
-            <span
-              v-if="!product.price"
-              class="pr-3 ml-1 h4"
-            >合計 {{ optionNum * product.origin_price | currency }} 元</span>
-            <span
-              v-else
-              class="pr-3 ml-1 h4"
-            >合計 {{ optionNum * product.price | currency }} 元</span>
-            <button
-              type="button"
-              class="btn btn-warning"
-              @click="addtoCart(product,optionNum)"
-            >加到購物車</button>
+              <option
+                :value="num"
+                v-for="num in 10"
+                :key="num"
+              >
+                選購 {{num}} {{product.unit}}
+              </option>
+            </select>
+            <div class="my-5 d-flex justify-content-between align-items-baseline">
+              <span
+                v-if="!product.price"
+                class="pr-3 ml-1 h4"
+              >合計 {{ optionNum * product.origin_price | currency }} 元</span>
+              <span
+                v-else
+                class="pr-3 ml-1 h4"
+              >合計 {{ optionNum * product.price | currency }} 元</span>
+              <button
+                type="button"
+                class="btn btn-warning"
+                @click="addtoCart(product,optionNum)"
+              >加到購物車</button>
+            </div>
           </div>
         </div>
       </div>
@@ -95,7 +98,12 @@
 </template>
 
 <script>
+  import ShoppingCart from "@/components/ShoppingCart.vue";
   export default {
+    name: "Detail",
+    components: {
+      ShoppingCart
+    },
     data() {
       return {
         isLoading: false,
@@ -137,6 +145,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "@/assets/helpers/_grid.scss";
   .img-center {
     text-align: center;
     zoom: 0.8;
@@ -150,5 +159,10 @@
   }
   a {
     text-decoration: none;
+  }
+  .pushFooter {
+    @include pad() {
+      margin-bottom: 50%;
+    }
   }
 </style>

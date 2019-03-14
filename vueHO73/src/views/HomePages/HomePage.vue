@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Carousel />
+    <Carousel class="d-none d-md-block" />
+    <CarouselMB class="d-md-none" />
     <!-- 關於本站 -->
     <section
       class="container mt-5"
@@ -133,11 +134,13 @@
 
 <script>
   import Carousel from "@/components/Carousel";
+  import CarouselMB from "@/components/Carousel_mb";
 
   export default {
     name: "HomePage",
     components: {
-      Carousel
+      Carousel,
+      CarouselMB
     }
   };
 </script>

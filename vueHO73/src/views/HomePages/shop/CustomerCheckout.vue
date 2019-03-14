@@ -1,6 +1,6 @@
 <template>
   <div>
-    <section class="container mt-5">
+    <section class="container mt-5 pushFooter">
       <loading :active.sync="isLoading">
         <div class="img-center">
           <img
@@ -187,11 +187,18 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "@/assets/helpers/_grid.scss";
   .img-center {
     text-align: center;
     zoom: 0.8;
   }
   .alert-rounded {
     border-radius: 50px;
+  }
+  .pushFooter {
+    margin-bottom: 15%;
+    @include pad() {
+      margin-bottom: 25%;
+    }
   }
 </style>

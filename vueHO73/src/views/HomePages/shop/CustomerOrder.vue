@@ -77,7 +77,14 @@
                     <tr>
                       <th scope="col"></th>
                       <th scope="col"></th>
-                      <th scope="col">商品名稱</th>
+                      <th
+                        scope="col"
+                        class="d-none d-lg-block"
+                      >商品名稱</th>
+                      <th
+                        scope="col"
+                        class="d-lg-none"
+                      >品名</th>
                       <th scope="col">數量</th>
                       <th
                         scope="col"
@@ -88,11 +95,15 @@
                       v-for="item in cart.carts"
                       :key="item.id"
                     >
-                      <td class="align-middle text-right pl-3 pl-sm-0">
+                      <td
+                        class="align-middle text-right"
+                        align="center"
+                        valign="center"
+                      >
                         <!-- <div class="ml-4"> -->
                         <button
                           type="button"
-                          class="btn btn-outline-danger btn-sm "
+                          class="btn btn-outline-danger btn-sm"
                           @click="removeCartItem(item)"
                         >
                           <i class="fas fa-trash fa-lg"></i>
@@ -100,16 +111,22 @@
                         <!-- </div> -->
                       </td>
 
-                      <td width="100">
-                        <img
-                          class="imgItem-center"
-                          :style="`background-image: url(${item.product.imageUrl});`"
-                        >
+                      <td
+                        width="100"
+                        align="center"
+                        valign="center"
+                      >
+                        <div class="tt">
+                          <img
+                            class="imgItem-center"
+                            :style="`background-image: url(${item.product.imageUrl});`"
+                          >
+                        </div>
                       </td>
                       <td class="align-middle">{{ item.product.title }}
                         <div
                           v-if="item.coupon"
-                          class="text-info"
+                          class="text-info d-none d-lg-block"
                         >
                           已套用優惠券
                         </div>
@@ -120,12 +137,12 @@
                       >{{ item.qty }}{{item.product.unit}}</td>
                       <td
                         v-if="!item.product.price"
-                        class="align-middle text-right pr-5 pr-sm-4"
+                        class="align-middle text-right pr-3 pr-md-2 pr-lg-3"
                         width="70"
                       >{{ item.qty * item.product.origin_price | currency }}</td>
                       <td
                         v-else
-                        class="align-middle text-right pr-5 pr-sm-4"
+                        class="align-middle text-right pr-3 pr-md-2 pr-lg-3"
                         width="70"
                       >{{ item.qty * item.product.price | currency }}</td>
                     </tr>
@@ -136,7 +153,7 @@
                         colspan="3"
                         class=""
                       >
-                        <div class="input-group mb-0 input-group-md">
+                        <div class="input-group mb-0 mt-2 input-group-md">
                           <input
                             type="text"
                             class="form-control"
@@ -150,15 +167,16 @@
                               type="button"
                               @click="addCouponCode"
                             >
-                              套用優惠碼
+                              <div class="d-none d-lg-block">套用優惠碼</div>
+                              <div class="d-lg-none">套用</div>
                             </button>
                           </div>
                         </div>
                         <p class="text-danger">{{ findCoupon }}</p>
                       </td>
-                      <td class="align-middle text-right">總計：</td>
+                      <td class="align-middle text-right p-0">總計：</td>
                       <td
-                        class="align-middle text-right pr-5 pr-sm-4"
+                        class="align-middle text-right pr-3 pr-md-2 pr-lg-3"
                         width="10"
                       >${{ cart.total }}</td>
                     </tr>
@@ -168,7 +186,7 @@
                         class="align-middle text-right text-info"
                       >折扣價：</td>
                       <td
-                        class="align-middle text-right text-info pr-5 pr-sm-4"
+                        class="align-middle text-right text-info pr-3 pr-md-2 pr-lg-3"
                         width="10"
                       >{{ cart.final_total | currency }}</td>
                       <!-- 此總數只適用於有優惠的價格，需再做計算，最好由後端更改，金錢較為敏感，預防別人篡改 -->
@@ -395,5 +413,8 @@
     &:focus {
       text-decoration: none;
     }
+  }
+  .tt {
+    // margin-top: 50%;
   }
 </style>

@@ -26,7 +26,7 @@
           style="background-image:url('https://images.unsplash.com/photo-1525026198548-4baa812f1183?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=633&q=80')"
         >
           <div class="bg-gradient">
-            <div class="carousel-caption d-none d-md-block logo-img px-3">
+            <div class="carousel-caption d-none d-md-block logo-img px-2">
               <img
                 class="logo-img"
                 src="../assets/images/ico/Ho73-bg.png"
@@ -40,9 +40,9 @@
           style="background-image:url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80')"
         >
           <div class="bg-gradient">
-            <div class="carousel-caption d-none d-md-block px-3">
-              <h2>Sharing Love</h2>
-              <p class="myFont my-3">愛的溫度，是我能為你做的事情</p>
+            <div class="carousel-caption d-none d-md-block px-2">
+              <h1 class="mb-4">Sharing Love</h1>
+              <p class="myFont my-3 d-none d-lg-block">愛的溫度，是我能為你做的事情</p>
               <p class="myFont">點亮盼望，傳遞愛</p>
             </div>
           </div>
@@ -52,10 +52,10 @@
           style="background-image:url('https://images.unsplash.com/photo-1460788150444-d9dc07fa9dba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80')"
         >
           <div class="bg-gradient">
-            <div class="carousel-caption d-none d-md-block px-3">
-              <h2>Be Together</h2>
-              <p class="myFont my-3">別讓他們的無助，成為彼此的遺憾</p>
-              <p class="myFont">你的微光，將是我們的希望</p>
+            <div class="carousel-caption d-none d-md-block px-2">
+              <h1 class="mb-4">Be Together</h1>
+              <p class="myFont my-3 d-none d-lg-block">別讓他們的無助，成為彼此的遺憾</p>
+              <p class="myFont">你的微光，是我們的希望</p>
             </div>
           </div>
         </div>

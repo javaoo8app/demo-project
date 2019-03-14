@@ -15,6 +15,9 @@
 
 .header-carousel-item {
   height: 500px;
+  @include phone() {
+    height: 765px;
+  }
 }
 .bg-gradient {
   content: "";
