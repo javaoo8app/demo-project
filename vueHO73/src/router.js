@@ -6,6 +6,7 @@ import VueRouter from "vue-router";
 import Login from "@/views/Login";
 import Home from "@/views/Home";
 import HomePage from "@/views/HomePages/HomePage";
+import News from "@/views/News/News";
 import Shop from "@/views/HomePages/Shop";
 import Detail from "@/views/HomePages/shop/Detail";
 import CustomerOrder from "@/views/HomePages/shop/CustomerOrder";
@@ -43,6 +44,11 @@ export default new VueRouter({
           path: "",
           name: "HomePage",
           component: HomePage
+        },
+        {
+          path: "News",
+          name: "News",
+          component: News
         },
         {
           path: "shop",
