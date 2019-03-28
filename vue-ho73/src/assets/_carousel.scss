@@ -1,0 +1,87 @@
+@import "helpers/grid";
+
+@font-face {
+  font-family: ho73Font;
+  src: url(./font/ho73.eot); /* IE9 Compat Modes */
+  src: url(./font/ho73.eot?#iefix) format("embedded-opentype"),
+    /* IE6-IE8 */ url(./font/ho73.woff) format("woff"),
+    /* Modern Browsers */ url(./font/ho73.ttf) format("truetype"),
+    /* Safari, Android, iOS */ url(./font/ho73.svg#ho73Font) format("svg"); /* Legacy iOS */
+}
+
+.enFont {
+  text-shadow: 3px 3px 0px rgba(243, 129, 129, 0.7), 4px 4px 0px #ccc;
+}
+
+.myFont {
+  font-family: "ho73Font";
+}
+
+.header-carousel-item {
+  height: 500px;
+  @include phone() {
+    height: 765px;
+  }
+}
+.bg-gradient {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(
+    243,
+    129,
+    129,
+    0.7
+  ); /* fallback for old browsers */ /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(
+    top,
+    rgba(243, 129, 129, 0.7),
+    rgba(252, 227, 138, 0.7)
+  );
+  background: -o-linear-gradient(
+    top,
+    rgba(243, 129, 129, 0.7),
+    rgba(252, 227, 138, 0.7)
+  );
+  background: linear-gradient(
+    to bottom,
+    rgba(243, 129, 129, 0.7),
+    rgba(252, 227, 138, 0.7)
+  );
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.bg-cover {
+  position: relative;
+  opacity: 0.9;
+  background-size: cover;
+  background-position: center center;
+}
+.carousel-caption {
+  background-color: rgba(243, 129, 129, 0.7);
+  border-radius: 15px;
+  margin: 0px 80px;
+}
+.carousel-item .carousel-caption {
+  opacity: 0;
+  transition: all 0.8s;
+}
+.carousel-item.active .carousel-caption {
+  opacity: 1;
+  transform: translate(0px, -120px);
+  .logo-img {
+    transform: translate(0px, 70px);
+  }
+}
+.logo-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  padding-top: 10%;
+  background-color: transparent;
+}
